@@ -57,7 +57,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, status: 404 });
   }
 
-  console.log(content);
   const result = await database
     .insert(post)
     .values({ content, title, userName: session.user?.email!, categories });
