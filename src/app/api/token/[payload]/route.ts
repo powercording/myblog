@@ -3,8 +3,6 @@ import { token } from '@/lib/TokenSchema/schema';
 import { InferModel, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
-export const runtime = 'edge';
-
 type Params = {
   params: {
     payload: string;

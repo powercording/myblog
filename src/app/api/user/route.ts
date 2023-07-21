@@ -3,8 +3,6 @@ import { user } from '@/lib/UserSchema/schema';
 import { InferModel, eq, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
-export const runtime = 'edge';
-
 type ResponsType = InferModel<typeof user>;
 const PROFILE_IMAGE_URL = 'https://my--blog.s3.ap-northeast-2.amazonaws.com/defaultprofile';
 

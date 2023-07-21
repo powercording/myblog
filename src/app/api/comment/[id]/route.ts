@@ -5,8 +5,6 @@ import { eq } from 'drizzle-orm';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
-export const runtime = 'edge';
-
 type Params = {
   params: {
     id: string;

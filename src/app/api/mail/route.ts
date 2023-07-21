@@ -2,8 +2,6 @@ import smtpTransport from '@/lib/nodemailer/email';
 import { NextResponse } from 'next/server';
 import Mail from 'nodemailer/lib/mailer';
 
-export const runtime = 'edge';
-
 export async function POST(req: Request) {
   const { email, payload } = await req.json();
   const mailOptions: Mail['options'] = {
