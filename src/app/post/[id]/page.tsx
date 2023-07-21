@@ -40,6 +40,8 @@ export default async function Post({ params: { id } }: Params) {
     },
   });
 
+  console.log(process.env.NEXT_PUBLIC_URL);
+  console.log(process.env.NODE_ENV);
   if (!markdownPost) {
     redirect('/');
   }
