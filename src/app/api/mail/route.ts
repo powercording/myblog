@@ -16,6 +16,9 @@ export async function POST(req: Request) {
     // html 꾸미기 가능?
     html: `<h1>인증번호: ${payload}</h1>`,
   };
+
+  console.log('메일옵션', mailOptions);
+  console.log('트랜스포트', smtpTransport);
   smtpTransport.sendMail(mailOptions);
 
   return NextResponse.json({ message: 'password send' });
