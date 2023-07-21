@@ -5,6 +5,8 @@ import { eq } from 'drizzle-orm';
 import { Session, getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
+export const runtime = 'edge';
+
 type ValidParams = {
   userName: string;
   session?: Session | null;

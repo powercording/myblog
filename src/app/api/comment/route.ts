@@ -1,6 +1,8 @@
-import { database } from "@/database/databaseClient";
-import { comment } from "@/lib/CommentSchema/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { database } from '@/database/databaseClient';
+import { comment } from '@/lib/CommentSchema/schema';
+import { NextRequest, NextResponse } from 'next/server';
+
+export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
   const { postId, userName, content } = await req.json();

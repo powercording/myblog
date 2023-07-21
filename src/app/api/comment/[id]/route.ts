@@ -1,9 +1,11 @@
-import { database } from "@/database/databaseClient";
-import { comment } from "@/lib/CommentSchema/schema";
-import { authOptions } from "@/lib/nextAuth/options";
-import { eq } from "drizzle-orm";
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { database } from '@/database/databaseClient';
+import { comment } from '@/lib/CommentSchema/schema';
+import { authOptions } from '@/lib/nextAuth/options';
+import { eq } from 'drizzle-orm';
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
+
+export const runtime = 'edge';
 
 type Params = {
   params: {
@@ -22,8 +24,7 @@ export async function DELETE(req: Request, { params }: Params) {
 
   try {
     const reply = await database.query.comment.findFirst({
-      where: (comment, { eq }) =>
-        eq(comment.id, id) && eq(comment.userName, session.user?.name!),
+      where: (comment, { eq }) => eq(comment.id, id) && eq(comment.userName, session.user?.name!),
     });
 
     if (!reply) {

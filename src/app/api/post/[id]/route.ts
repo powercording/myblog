@@ -1,10 +1,12 @@
-import { authOptions } from "@/lib/nextAuth/options";
-import { getServerSession } from "next-auth";
-import { vaild } from "../route";
-import { database } from "@/database/databaseClient";
-import { post } from "@/lib/PostSchema/schema";
-import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { authOptions } from '@/lib/nextAuth/options';
+import { getServerSession } from 'next-auth';
+import { vaild } from '../route';
+import { database } from '@/database/databaseClient';
+import { post } from '@/lib/PostSchema/schema';
+import { eq } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
+
+export const runtime = 'edge';
 
 type Params = {
   params: {
