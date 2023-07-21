@@ -26,7 +26,7 @@ const findUser = async (email: string): Promise<UserModel | CustomError> => {
   if (!validateEmail(email)) {
     return errorCreate(400, '올바른 이메일을 입력하세요');
   }
-
+  console.log(host);
   const getUserFromApi = await fetch(`${host}/api/user`, {
     method: 'POST',
     body: JSON.stringify({ email }),
@@ -86,7 +86,7 @@ const sendEmail = async (email: string, payload: number): Promise<void> => {
 
 const authRequest = async (user: UserModel): Promise<void> => {
   const payload = Math.floor(100000 + Math.random() * 900000);
-
+  console.log('어스 리퀘스트 힛');
   await Promise.allSettled([createToken(user.id, payload), sendEmail(user.email, payload)]);
 };
 

@@ -1,20 +1,15 @@
-import { database } from "@/database/databaseClient";
-import { user } from "@/lib/UserSchema/schema";
-import { InferModel, eq, sql } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { database } from '@/database/databaseClient';
+import { user } from '@/lib/UserSchema/schema';
+import { InferModel, eq, sql } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
 
 type ResponsType = InferModel<typeof user>;
-const PROFILE_IMAGE_URL =
-  "https://my--blog.s3.ap-northeast-2.amazonaws.com/defaultprofile";
+const PROFILE_IMAGE_URL = 'https://my--blog.s3.ap-northeast-2.amazonaws.com/defaultprofile';
 
-export async function POST(
-  req: Request
-): Promise<NextResponse<ResponsType | undefined>> {
+export async function POST(req: Request): Promise<NextResponse<ResponsType | undefined>> {
+  console.log('유저 확인 엔드포인트 힛');
   const { email } = await req.json();
-  const existUser = await database
-    .select()
-    .from(user)
-    .where(eq(user.email, email));
+  const existUser = await database.select().from(user).where(eq(user.email, email));
 
   return NextResponse.json({ ...existUser[0] });
 }
