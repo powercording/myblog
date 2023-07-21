@@ -9,7 +9,7 @@ class CommentService {
 
   constructor() {
     if (CommentService.instance) {
-      throw new Error('Error: Instantiation failed: Use Authservice.getInstance() instead of new.');
+      throw new Error('Error: Instantiation failed: Use CommentService.getInstance() instead of new.');
     }
     CommentService.instance = this;
   }

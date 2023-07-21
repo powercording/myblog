@@ -8,6 +8,7 @@ import { post } from '@/lib/PostSchema/schema';
 import postService from '@/app/service/PostService';
 import { getSession } from 'next-auth/react';
 import { BsPencil } from 'react-icons/bs';
+import { insertPost } from '@/service/postService';
 
 type MarkdownSet = {
   renderType: 'edit' | 'create';
@@ -42,7 +43,7 @@ export default function MarkdownSet({ markdown = emptyMarkdown, renderType }: Ma
       return null;
     }
 
-    await postService.insertPost({
+    await insertPost({
       content: markdownContent,
       title: markdonwTitle,
       categories: categories === '' ? null : categories,
@@ -106,7 +107,6 @@ export default function MarkdownSet({ markdown = emptyMarkdown, renderType }: Ma
             <select
               className="rounded-md pl-6 pr-16 border border-slate-300 bg-slate-300 focus:outline-none cursor-pointer text-black"
               onChange={handleCategoryChange}
-              defaultValue={categories ?? ''}
               value={categories ?? ''}
             >
               {categoriesList.sort().map(category => (

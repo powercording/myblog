@@ -11,6 +11,8 @@ type ValidParams = {
 };
 type Valid = ({ userName, session }: ValidParams) => NextResponse;
 
+const host = process.env.NEXT_PUBLIC_URL;
+
 export const vaild: Valid = ({ userName, session }) => {
   if (!session) {
     console.log('no session');
@@ -44,7 +46,7 @@ export async function PATCH(req: Request) {
 
   await database.update(post).set({ content, title, categories }).where(eq(post.id, id));
 
-  return NextResponse.redirect(`http://localhost:3000/post/${id}`);
+  return NextResponse.redirect(`${host}/post/${id}`);
 }
 
 export async function POST(req: Request) {
@@ -59,5 +61,5 @@ export async function POST(req: Request) {
     .insert(post)
     .values({ content, title, userName: session.user?.email!, categories });
 
-  return NextResponse.redirect(`http://localhost:3000/post/${result.insertId}`);
+  return NextResponse.redirect(`${host}/post/${result.insertId}`);
 }

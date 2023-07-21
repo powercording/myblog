@@ -53,21 +53,31 @@ export default function LoginForm({ getUserFromAction }: LoginForm) {
     setLoginState({ isEmailOk: false });
   };
 
-  const disabled = loginState.isEmailOk ? true : false;
-  const isEmailChecked = disabled;
   const errorMessage = loginState.isEmailOk === true ? null : loginState.errorMessage;
-  const loginButtonText = isEmailChecked ? '로그인' : '임시 비밀번호 받기';
-  const action = isEmailChecked ? onLogin : getUser;
+  const loginButtonText = loginState.isEmailOk ? '로그인' : '임시 비밀번호 받기';
+  const action = loginState.isEmailOk ? onLogin : getUser;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <form className="grid gap-5" action={action}>
-        <Input type="email" name="email" placeholder="이메일" required disabled={disabled} />
-        <Input type="text" name="password" placeholder="비밀번호" required disabled={!disabled} />
+        <Input
+          type="email"
+          name="email"
+          placeholder="이메일"
+          required
+          disabled={loginState.isEmailOk}
+        />
+        <Input
+          type="text"
+          name="password"
+          placeholder="비밀번호"
+          required
+          disabled={!loginState.isEmailOk}
+        />
         <Button type="submit">{loginButtonText}</Button>
         <span className="text-red-300  text-xs px-1">
           {errorMessage ?? ''}
-          {isEmailChecked && (
+          {loginState.isEmailOk && (
             <p
               className="text-blue-300 underline-offset-2 underline cursor-pointer"
               onClick={reSetState}
