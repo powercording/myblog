@@ -3,9 +3,15 @@
 import { token } from '@/lib/TokenSchema/schema';
 import { user as User } from '@/lib/UserSchema/schema';
 import { InferModel } from 'drizzle-orm';
+import { C } from 'drizzle-orm/select.types.d-b947a018';
 
 type UserModel = InferModel<typeof User>;
 type TokenModel = InferModel<typeof token>;
+type EmailResult = {
+  ok: boolean;
+  status: number;
+  error?: { message: string } | null;
+};
 export type CustomError = { error: { message: string }; status: number };
 const host = process.env.NEXT_PUBLIC_URL;
 
@@ -68,26 +74,40 @@ const findToken = async (password: string): Promise<TokenModel | null> => {
 };
 
 const createToken = async (userId: number, payload: number): Promise<void> => {
-  await fetch(`${host}/api/token`, {
+  const tokenCreateResult = await fetch(`${host}/api/token`, {
     method: 'POST',
     body: JSON.stringify({ payload, userId }),
     cache: 'no-cache',
   });
 };
 
-const sendEmail = async (email: string, payload: number): Promise<void> => {
-  console.log(email);
-  await fetch(`${host}/api/mail`, {
+const sendEmail = async (email: string, payload: number) => {
+  const sendEmail = await fetch(`${host}/api/mail`, {
     method: 'POST',
     body: JSON.stringify({ email, payload }),
     cache: 'no-cache',
   });
+
+  const sendEmailResult: EmailResult = await sendEmail.json();
+  if (sendEmailResult.error) {
+    return errorCreate(sendEmailResult.status, sendEmailResult.error.message);
+  }
+
+  return sendEmailResult;
 };
 
-const authRequest = async (user: UserModel): Promise<void> => {
+const authRequest = async (user: UserModel) => {
   const payload = Math.floor(100000 + Math.random() * 900000);
-  console.log('어스 리퀘스트 힛');
-  await Promise.allSettled([createToken(user.id, payload), sendEmail(user.email, payload)]);
+  const [token, email] = await Promise.allSettled([
+    createToken(user.id, payload),
+    sendEmail(user.email, payload),
+  ]);
+
+  if (email.status === 'rejected' || token.status === 'rejected') {
+    return errorCreate(500, '이메일 전송에 실패했습니다. 다시 시도해주세요');
+  }
+
+  return { ok: true };
 };
 
 const join = async (email: string): Promise<UserModel | CustomError> => {

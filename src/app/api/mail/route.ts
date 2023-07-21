@@ -4,13 +4,6 @@ import Mail from 'nodemailer/lib/mailer';
 
 export async function POST(req: Request) {
   const { email, payload } = await req.json();
-
-  console.log('메일 힛');
-  console.log(process.env.EMAIL_ID);
-
-  console.log(process.env.EMAIL_PASS, '엔드포인트 이메일 비번');
-  console.log(process.env.EMAIL_ID, '엔드포인트 이메일 아이디');
-
   const mailOptions: Mail['options'] = {
     from: `마이블로그 <${process.env.EMAIL_ID}>`,
     to: email,
@@ -20,9 +13,11 @@ export async function POST(req: Request) {
     html: `<h1>인증번호: ${payload}</h1>`,
   };
 
-  console.log('메일옵션', mailOptions);
-  console.log('트랜스포트', smtpTransport);
-  smtpTransport.sendMail(mailOptions);
+  const result = await smtpTransport.sendMail(mailOptions);
+  console.log('제발되라');
+  if (result.accepted[0] !== email) {
+    return NextResponse.json({ ok: false, status: 500, error: { message: 'email send fail' } });
+  }
 
-  return NextResponse.json({ message: 'password send' });
+  return NextResponse.json({ ok: true, status: 200, error: null });
 }

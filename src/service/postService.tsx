@@ -10,9 +10,7 @@ type Markdown = Partial<InferModel<typeof post>>;
 //TODO: 해당 파일의 모든 함수가 세션유효성 검사를 필요로 하므로, 트라이캐치와 세션검사를 포함하는 래퍼함수를 작성할것.
 
 const insertPost = async (markdownModel: Markdown) => {
-  console.log(markdownModel);
   // TODO: 인서트 로직에 세션검사 추가.
-  console.log(host);
   const result = await fetch(`${host}/api/post`, {
     method: 'POST',
     body: JSON.stringify(markdownModel),

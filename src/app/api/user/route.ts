@@ -7,7 +7,6 @@ type ResponsType = InferModel<typeof user>;
 const PROFILE_IMAGE_URL = 'https://my--blog.s3.ap-northeast-2.amazonaws.com/defaultprofile';
 
 export async function POST(req: Request): Promise<NextResponse<ResponsType | undefined>> {
-  console.log('유저 확인 엔드포인트 힛');
   const { email } = await req.json();
   const existUser = await database.select().from(user).where(eq(user.email, email));
 
