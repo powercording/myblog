@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrations:generate": "drizzle-kit generate:mysql",
+    "migrations:push": "drizzle-kit push:mysql",
+    "migrations:pull": "drizzle-kit introspect:mysql --config=drizzle.config.js",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.374.0",
