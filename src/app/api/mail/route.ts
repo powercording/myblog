@@ -8,6 +8,9 @@ export async function POST(req: Request) {
   console.log('메일 힛');
   console.log(process.env.EMAIL_ID);
 
+  console.log(process.env.EMAIL_PASS, '엔드포인트 이메일 비번');
+  console.log(process.env.EMAIL_ID, '엔드포인트 이메일 아이디');
+
   const mailOptions: Mail['options'] = {
     from: `마이블로그 <${process.env.EMAIL_ID}>`,
     to: email,
