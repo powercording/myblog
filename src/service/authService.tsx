@@ -1,15 +1,15 @@
 'use server';
 
+import { database } from '@/database/databaseClient';
 import { token } from '@/lib/TokenSchema/schema';
 import { user as User } from '@/lib/UserSchema/schema';
-import { InferModel } from 'drizzle-orm';
+import { InferModel, eq, sql } from 'drizzle-orm';
+import { withTryCatch } from './withService';
+import { sendEmail } from './emailService';
+
 type UserModel = InferModel<typeof User>;
 type TokenModel = InferModel<typeof token>;
-type EmailResult = {
-  ok: boolean;
-  status: number;
-  error?: { message: string } | null;
-};
+
 export type CustomError = { error: { message: string }; status: number };
 const host = process.env.NEXT_PUBLIC_URL;
 
@@ -26,75 +26,35 @@ const validatePassword = (password: string): boolean => {
   return Number.isInteger(+password);
 };
 
-const findUser = async (email: string): Promise<UserModel | CustomError> => {
+const findUser = withTryCatch(async (email: string): Promise<UserModel | CustomError | {}> => {
   if (!validateEmail(email)) {
     return errorCreate(400, '올바른 이메일을 입력하세요');
   }
-
-  const getUserFromApi = await fetch(`${host}/api/user`, {
-    method: 'POST',
-    body: JSON.stringify({ email }),
-    cache: 'no-cache',
-  });
-
-  const user = await getUserFromApi.json();
-
-  if (getUserFromApi.status !== 200) {
-    return errorCreate(500, '요청을 처리하지 못했습니다. 다시 시도해주세요');
-  }
-
-  if (Object.keys(user).length === 0) {
-    return user; // empty User === 회원이 아님.(가입 가능)
-  }
-
-  return user;
-};
+  const user = await database.query.user.findFirst({ where: eq(User.email, email) });
+  return user ?? {};
+});
 
 //FIXME: 해당 함수를 nextauth 에 사용해보고, 안되면 끝내버리자.
-const findToken = async (password: string): Promise<TokenModel | null> => {
+const findToken = async (password: string): Promise<TokenModel | CustomError> => {
   if (validatePassword(password)) {
-    return Promise.resolve(null);
+    return errorCreate(400, '올바른 비밀번호를 입력하세요1');
   }
 
-  const getTokenFromApi = await fetch(`${host}/api/token/${password}`, {
-    method: 'GET',
-    cache: 'no-cache',
-  });
+  const loginToken = await database.query.token.findFirst({ where: eq(token.payload, password) });
 
-  const token = await getTokenFromApi.json();
-
-  if (getTokenFromApi.status !== 200 || Object.keys(token).length === 0) {
-    // throw error??
-    return null;
+  if (!loginToken) {
+    return errorCreate(400, '올바른 비밀번호를 입력하세요2');
   }
 
-  return token;
+  return loginToken;
 };
 
-const createToken = async (userId: number, payload: number): Promise<void> => {
-  const tokenCreateResult = await fetch(`${host}/api/token`, {
-    method: 'POST',
-    body: JSON.stringify({ payload, userId }),
-    cache: 'no-cache',
-  });
-};
+const createToken = withTryCatch(async (userId: number, payload: number): Promise<void> => {
+  const loginToken = await database.insert(token).values({ payload: `${payload}`, userId });
+  //TODO: 토큰 검증 로직?
+});
 
-const sendEmail = async (email: string, payload: number) => {
-  const sendEmail = await fetch(`${host}/api/mail`, {
-    method: 'POST',
-    body: JSON.stringify({ email, payload }),
-    cache: 'no-cache',
-  });
-
-  const sendEmailResult: EmailResult = await sendEmail.json();
-  if (sendEmailResult.error) {
-    return errorCreate(sendEmailResult.status, sendEmailResult.error.message);
-  }
-
-  return sendEmailResult;
-};
-
-const authRequest = async (user: UserModel) => {
+const authRequest = withTryCatch(async (user: UserModel) => {
   const payload = Math.floor(100000 + Math.random() * 900000);
   const [token, email] = await Promise.allSettled([
     createToken(user.id, payload),
@@ -105,10 +65,10 @@ const authRequest = async (user: UserModel) => {
     return errorCreate(500, '이메일 전송에 실패했습니다. 다시 시도해주세요');
   }
 
-  return { ok: true };
-};
+  return { ok: true, status: 200 };
+});
 
-const join = async (email: string): Promise<UserModel | CustomError> => {
+const join = async (email: string): Promise<{ status: number, ok: boolean } | CustomError> => {
   const user = await findUser(email);
 
   if ('error' in user) {
@@ -119,20 +79,22 @@ const join = async (email: string): Promise<UserModel | CustomError> => {
     return errorCreate(400, '이미 가입된 이메일입니다.');
   }
 
-  const userInsertResult = await fetch(`${host}/api/user`, {
-    method: 'PUT',
-    body: JSON.stringify({ email }),
-    cache: 'no-cache',
+  const dafualtImageIndex = Math.round(Math.random() * 10);
+  const PROFILE_IMAGE_URL = 'https://my--blog.s3.ap-northeast-2.amazonaws.com/defaultprofile';
+
+  const joinUser = await database.insert(User).values({
+    email,
+    name: email,
+    updatedAt: sql`(CURRENT_TIMESTAMP(3))`,
+    avatar: `${PROFILE_IMAGE_URL}/${dafualtImageIndex}.jpg`,
   });
 
-  const result = await userInsertResult.json();
-
-  if (userInsertResult.status !== 200) {
+  if (joinUser.rowsAffected === 0 || joinUser.rowsAffected === undefined) {
     return errorCreate(500, '회원가입이 실패 했습니다. 다시 시도해주세요');
   }
 
   // TODO: or Redirect to login page
-  return result;
+  return { status: 200, ok: true };
 };
 
 const login = async (email: string, password: string): Promise<void> => {

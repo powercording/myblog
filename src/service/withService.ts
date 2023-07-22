@@ -1,3 +1,5 @@
+'use server';
+
 import { authOptions } from '@/lib/nextAuth/options';
 import { getServerSession } from 'next-auth';
 
@@ -20,13 +22,13 @@ export const withTryCatchSession = <F extends (...args: any[]) => any>(fn: F): W
   };
 };
 
-// export function withTryCatch<F extends (...args: any[]) => any>(fn: F): WithTryCatch<F> {
-//   return async (...args) => {
-//     try {
-//       return await fn(...args);
-//     } catch (e) {
-//       console.log(e);
-//       return null;
-//     }
-//   };
-// }
+export const withTryCatch = <F extends (...args: any[]) => any>(fn: F): WithTryCatch<F> => {
+  return async (...args) => {
+    try {
+      return await fn(...args);
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  };
+};

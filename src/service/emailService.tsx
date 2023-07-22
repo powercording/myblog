@@ -1,9 +1,10 @@
-import smtpTransport from '@/lib/nodemailer/email';
-import { NextResponse } from 'next/server';
-import Mail from 'nodemailer/lib/mailer';
+'use server';
 
-export async function POST(req: Request) {
-  const { email, payload } = await req.json();
+import { withTryCatch } from './withService';
+import Mail from 'nodemailer/lib/mailer';
+import smtpTransport from '@/lib/nodemailer/email';
+
+export const sendEmail = withTryCatch(async (email: string, payload: number) => {
   const mailOptions: Mail['options'] = {
     from: `마이블로그 <${process.env.EMAIL_ID}>`,
     to: email,
@@ -14,10 +15,10 @@ export async function POST(req: Request) {
   };
 
   const result = await smtpTransport.sendMail(mailOptions);
-  console.log('제발되라');
+
   if (result.accepted[0] !== email) {
-    return NextResponse.json({ ok: false, status: 500, error: { message: 'email send fail' } });
+    return { ok: false, status: 500, error: { message: 'email send fail' } };
   }
 
-  return NextResponse.json({ ok: true, status: 200, error: null });
-}
+  return { ok: true, status: 200, error: null };
+});

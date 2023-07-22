@@ -19,5 +19,5 @@ export default async function Login() {
 
     return user;
   };
-  return <LoginForm getUserFromAction={getUserFromServer} />;
+  return <LoginForm getUser={getUserFromServer} />;
 }
