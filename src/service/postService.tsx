@@ -16,7 +16,7 @@ const insertPost = async (markdownModel: Markdown) => {
     body: JSON.stringify(markdownModel),
   });
   if (result.status === 200) {
-    return redirect(result.url);
+    return console.log('잘 등록됬다고 생각합니다.');
   }
 };
 

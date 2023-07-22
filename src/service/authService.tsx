@@ -3,7 +3,6 @@
 import { token } from '@/lib/TokenSchema/schema';
 import { user as User } from '@/lib/UserSchema/schema';
 import { InferModel } from 'drizzle-orm';
-import { C } from 'drizzle-orm/select.types.d-b947a018';
 
 type UserModel = InferModel<typeof User>;
 type TokenModel = InferModel<typeof token>;

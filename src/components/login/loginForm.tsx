@@ -5,6 +5,7 @@ import { signIn } from 'next-auth/react';
 import Input from '@/components/input/input';
 import Button from '@/components/button/button';
 import { LoginRequestResult } from '@/app/(guestRoute)/login/page';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 type LoginOkProp = {
   isEmailOk: true;
@@ -24,6 +25,7 @@ interface LoginForm {
 
 export default function LoginForm({ getUserFromAction }: LoginForm) {
   const [loginState, setLoginState] = useState<LoginProp>({ isEmailOk: false });
+  const [loading, setLoading] = useState<boolean>(false);
 
   const getUser = async (formData: FormData) => {
     const user = await getUserFromAction(formData);
@@ -74,7 +76,9 @@ export default function LoginForm({ getUserFromAction }: LoginForm) {
           required
           disabled={!loginState.isEmailOk}
         />
-        <Button type="submit">{loginButtonText}</Button>
+        <Button type="submit">
+          {loading ? <AiOutlineLoading3Quarters className="animate-spin" /> : loginButtonText}
+        </Button>
         <span className="text-red-300  text-xs px-1">
           {errorMessage ?? ''}
           {loginState.isEmailOk && (
