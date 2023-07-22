@@ -28,13 +28,20 @@ export default function LoginForm({ getUserFromAction }: LoginForm) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const getUser = async (formData: FormData) => {
-    const user = await getUserFromAction(formData);
+    try {
+      setLoading(true);
+      const user = await getUserFromAction(formData);
 
-    if ('error' in user) {
-      setLoginState({ isEmailOk: false, errorMessage: user.error.message });
-    }
-    if ('email' in user) {
-      setLoginState({ isEmailOk: true, email: user.email });
+      if ('error' in user) {
+        setLoginState({ isEmailOk: false, errorMessage: user.error.message });
+      }
+      if ('email' in user) {
+        setLoginState({ isEmailOk: true, email: user.email });
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,15 +51,23 @@ export default function LoginForm({ getUserFromAction }: LoginForm) {
     }
     const password = formData.get('password') as string;
 
-    await signIn('credentials', {
-      email: loginState.email,
-      password,
-      callbackUrl: '/',
-    });
+    try {
+      setLoading(true);
+      await signIn('credentials', {
+        email: loginState.email,
+        password,
+        callbackUrl: '/',
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const reSetState = () => {
     setLoginState({ isEmailOk: false });
+    setLoading(false);
   };
 
   const errorMessage = loginState.isEmailOk === true ? null : loginState.errorMessage;
