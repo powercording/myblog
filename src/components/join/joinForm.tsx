@@ -5,7 +5,7 @@ import Input from '@/components/input/input';
 import { InferModel } from 'drizzle-orm';
 import { user } from '@/lib/UserSchema/schema';
 import { useState } from 'react';
-import { CustomError } from '@/app/service/AuthService';
+import { CustomError } from '@/service/authService'; 
 import { redirect } from 'next/navigation';
 
 interface JoinForm {

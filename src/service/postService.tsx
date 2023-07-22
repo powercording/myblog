@@ -2,8 +2,6 @@
 
 import { InferModel } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
-import { redirect } from 'next/navigation';
-
 const host = process.env.NEXT_PUBLIC_URL;
 type Markdown = Partial<InferModel<typeof post>>;
 
@@ -14,8 +12,13 @@ const insertPost = async (markdownModel: Markdown) => {
   const result = await fetch(`${host}/api/post`, {
     method: 'POST',
     body: JSON.stringify(markdownModel),
+    cache: 'no-cache',
   });
   if (result.status === 200) {
+    // 이부분 항상 200이 리턴됨.
+    console.log(result.status);
+    console.log(result.url);
+    console.log(await result.json());
     return console.log('잘 등록됬다고 생각합니다.');
   }
 };

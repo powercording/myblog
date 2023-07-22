@@ -4,7 +4,7 @@ import { token } from '@/lib/TokenSchema/schema';
 import { user as User } from '@/lib/UserSchema/schema';
 import { InferModel } from 'drizzle-orm';
 
-type UserModel = InferModel<typeof User>;
+export type UserModel = InferModel<typeof User>;
 type TokenModel = InferModel<typeof token>;
 type EmailResult = {
   ok: boolean;

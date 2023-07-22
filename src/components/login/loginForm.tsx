@@ -28,8 +28,8 @@ export default function LoginForm({ getUserFromAction }: LoginForm) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const getUser = async (formData: FormData) => {
+    setLoading(() => true);
     try {
-      setLoading(true);
       const user = await getUserFromAction(formData);
 
       if ('error' in user) {
@@ -41,7 +41,7 @@ export default function LoginForm({ getUserFromAction }: LoginForm) {
     } catch (e) {
       console.log(e);
     } finally {
-      setLoading(false);
+      setLoading(() => false);
     }
   };
 
@@ -50,9 +50,9 @@ export default function LoginForm({ getUserFromAction }: LoginForm) {
       return alert('올바르지 않은 접근입니다.');
     }
     const password = formData.get('password') as string;
+    setLoading(() => true);
 
     try {
-      setLoading(true);
       await signIn('credentials', {
         email: loginState.email,
         password,
@@ -61,13 +61,13 @@ export default function LoginForm({ getUserFromAction }: LoginForm) {
     } catch (e) {
       console.log(e);
     } finally {
-      setLoading(false);
+      setLoading(() => false);
     }
   };
 
   const reSetState = () => {
     setLoginState({ isEmailOk: false });
-    setLoading(false);
+    setLoading(() => false);
   };
 
   const errorMessage = loginState.isEmailOk === true ? null : loginState.errorMessage;
