@@ -1,50 +1,73 @@
 'use server';
 
-import { InferModel } from 'drizzle-orm';
+//TODO: 파일 전체에 콘솔로그 리턴값을 데이터로 교체 해야함
+import { InferModel, eq, and } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/nextAuth/options';
+import { withTryCatchSession } from './withService';
+import { Session } from 'next-auth';
+import { database } from '@/database/databaseClient';
+
 const host = process.env.NEXT_PUBLIC_URL;
-type Markdown = Partial<InferModel<typeof post>>;
+export type UpdateMarkdown = InferModel<typeof post>;
+export type Markdown = Omit<UpdateMarkdown, 'id' | 'createdAt' | 'userName'>;
 
-//TODO: 해당 파일의 모든 함수가 세션유효성 검사를 필요로 하므로, 트라이캐치와 세션검사를 포함하는 래퍼함수를 작성할것.
-
-const insertPost = async (markdownModel: Markdown) => {
-  // TODO: 인서트 로직에 세션검사 추가.
-  const session = await getServerSession(authOptions);
-  const result = await fetch(`${host}/api/post`, {
-    method: 'POST',
-    body: JSON.stringify(markdownModel),
-    cache: 'no-cache',
-  });
-  if (result.status === 200) {
-    // 이부분 항상 200이 리턴됨.
-    console.log(result.status);
-    console.log(result.url);
-    console.log(await result.json());
-    return console.log('잘 등록됬다고 생각합니다.');
+const insertPost = withTryCatchSession(async (markdownModel: Markdown, session?: Session) => {
+  if (!session || !session.user) {
+    return console.log('올바른 유저의 접근이 아닙니다. 유저를 확인할 수 없습니다.');
   }
-};
 
-const deletePost = async (id: number) => {
-  // TODO: delete 로직에 세션검사 추가.
-  const deleteResult = await fetch(`${host}/api/post/${id}`, {
-    method: 'DELETE',
+  const insertResult = await database.insert(post).values({
+    ...markdownModel,
+    userName: session.user.name as string,
   });
-  if (deleteResult.status === 200) {
-    return (window.location.href = '/');
-  }
-};
 
-const updatePost = async (markdownModel: Markdown) => {
-  // TODO: update 로직에 세션검사 추가.
-  const result = await fetch(`${host}/api/post`, {
-    method: 'PATCH',
-    body: JSON.stringify(markdownModel),
-  });
-  if (result.status === 200) {
-    return (window.location.href = result.url);
+  if (insertResult.rowsAffected === 0 || insertResult.rowsAffected === undefined) {
+    return console.log('등록에 실패했습니다.');
   }
-};
+
+  return console.log('잘 등록됬다고 생각합니다.');
+});
+
+const deletePost = withTryCatchSession(async (id: number, session?: Session) => {
+  if (!session || !session.user) {
+    return console.log('올바른 유저의 접근이 아닙니다. 유저를 확인할 수 없습니다.');
+  }
+
+  const deleted = await database
+    .delete(post)
+    .where(and(eq(post.id, id), eq(post.userName, session.user.name as string)));
+
+  if (deleted.rowsAffected === 0 || deleted.rowsAffected === undefined) {
+    return console.log('삭제에 실패했습니다.');
+  }
+
+  return console.log('잘 삭제됬다고 생각합니다.');
+});
+
+const updatePost = withTryCatchSession(async (markdownModel: UpdateMarkdown, session?: Session) => {
+  if (!session || !session.user) {
+    return console.log('올바른 유저의 접근이 아닙니다. 유저를 확인할 수 없습니다.');
+  }
+
+  if (markdownModel.id === undefined) {
+    return console.log('수정 요청을 처리하지 못했습니다.');
+  }
+
+  if (markdownModel.userName !== session.user.name) {
+    return console.log('올바른 수정요청이 아닙니다.');
+  }
+  const { content, title, categories } = markdownModel;
+
+  const updated = await database
+    .update(post)
+    .set({ content, title, categories })
+    .where(eq(post.id, markdownModel.id));
+
+  if (updated.rowsAffected === 0 || updated.rowsAffected === undefined) {
+    return console.log('수정에 실패했습니다.');
+  }
+
+  return console.log('잘 수정됬다고 생각합니다.');
+});
 
 export { insertPost, deletePost, updatePost };

@@ -3,7 +3,13 @@ import { database } from '@/database/databaseClient';
 import Link from 'next/link';
 
 export default async function Home() {
-  const getPosts = await database.query.post.findMany({ with: { createdBy: true } });
+  const getPosts = await database.query.post.findMany({
+    with: {
+      createdBy: {
+        columns: { avatar: true },
+      },
+    },
+  });
   const posts = getPosts.reverse();
 
   return (

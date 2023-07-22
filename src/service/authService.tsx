@@ -3,8 +3,7 @@
 import { token } from '@/lib/TokenSchema/schema';
 import { user as User } from '@/lib/UserSchema/schema';
 import { InferModel } from 'drizzle-orm';
-
-export type UserModel = InferModel<typeof User>;
+type UserModel = InferModel<typeof User>;
 type TokenModel = InferModel<typeof token>;
 type EmailResult = {
   ok: boolean;
@@ -31,7 +30,7 @@ const findUser = async (email: string): Promise<UserModel | CustomError> => {
   if (!validateEmail(email)) {
     return errorCreate(400, '올바른 이메일을 입력하세요');
   }
-  console.log(host);
+
   const getUserFromApi = await fetch(`${host}/api/user`, {
     method: 'POST',
     body: JSON.stringify({ email }),

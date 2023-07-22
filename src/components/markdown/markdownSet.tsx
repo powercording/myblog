@@ -5,10 +5,9 @@ import MarkdownViewer from './markdownViewer';
 import MarkdownEditor from './markdownEditor';
 import { InferModel } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
-import postService from '@/app/service/PostService';
 import { getSession } from 'next-auth/react';
 import { BsPencil } from 'react-icons/bs';
-import { insertPost } from '@/service/postService';
+import { insertPost, deletePost, updatePost, Markdown } from '@/service/postService';
 
 type MarkdownSet = {
   renderType: 'edit' | 'create';
@@ -16,25 +15,18 @@ type MarkdownSet = {
 };
 
 // const emptyMarkdown: InferModel<typeof post> = {
-const emptyMarkdown: any = {
-  id: 0,
-  content: '',
-  title: '',
-  userName: '',
-  createdAt: '',
-  categories: '',
-};
 
 const categoriesList = ['-', 'javascript', 'typescript', 'react', 'nextjs', 'spring', 'kotlin'];
 
-export default function MarkdownSet({ markdown = emptyMarkdown, renderType }: MarkdownSet) {
-  const [markdownContent, setMarkdownContent] = useState(markdown?.content ?? '');
-  const [markdonwTitle, setMarkdownTitle] = useState(markdown?.title ?? '');
-  const [categories, setCategory] = useState<string>(markdown?.categories ?? '');
-  const {} = getSession();
+export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
+  const [markdownPost, setMarkdownPost] = useState<Markdown>({
+    title: markdown?.title ?? '',
+    content: markdown?.content ?? '',
+    categories: markdown?.categories ?? '',
+  });
 
   const handleMarkdownRegister = async () => {
-    if (!markdownContent || !markdonwTitle) {
+    if (!markdownPost.content.trim() || !markdownPost.title.trim()) {
       return alert('제목과 내용을 입력해주세요');
     }
 
@@ -43,33 +35,33 @@ export default function MarkdownSet({ markdown = emptyMarkdown, renderType }: Ma
       return null;
     }
 
-    await insertPost({
-      content: markdownContent,
-      title: markdonwTitle,
-      categories: categories === '' ? null : categories,
-    });
+    await insertPost(markdownPost);
   };
 
   const handleMarkdownUpdate = async () => {
-    await postService.updateMarkdown({
-      ...markdown,
-      content: markdownContent,
-      title: markdonwTitle,
-      categories: categories === '' ? null : categories,
-    });
+    if (!markdownPost.content.trim() || !markdownPost.title.trim()) {
+      return alert('제목과 내용을 입력해주세요');
+    }
+
+    const postUpdataConfirm = confirm('작성하시겠습니까?');
+    if (!postUpdataConfirm) {
+      return null;
+    }
+
+    await updatePost({ ...markdown!, ...markdownPost });
   };
 
   const hnadleMarkdownDelete = async () => {
     const isDelete = confirm('정말 삭제하시겠습니까?');
     if (!isDelete) return;
-    await postService.deleteMarkdown(markdown.id);
+    await deletePost(markdown?.id as number);
   };
 
   const handleMarkdownAutosave = () => {};
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
-    setCategory(selectedCategory);
+    setMarkdownPost({ ...markdownPost, categories: selectedCategory });
   };
 
   const buttonOneCallback = renderType === 'create' ? handleMarkdownRegister : handleMarkdownUpdate;
@@ -84,8 +76,8 @@ export default function MarkdownSet({ markdown = emptyMarkdown, renderType }: Ma
             className="block p-3 text-2xl text-gray-200 focus:outline-none bg-transparent w-full"
             placeholder="제목"
             type="text"
-            value={markdonwTitle ?? ''}
-            onChange={e => setMarkdownTitle(e.target.value)}
+            value={markdownPost.title ?? ''}
+            onChange={e => setMarkdownPost({ ...markdownPost, title: e.target.value })}
           />
           <div className="absolute right-5 top-16 flex items-center gap-2">
             <button
@@ -107,7 +99,7 @@ export default function MarkdownSet({ markdown = emptyMarkdown, renderType }: Ma
             <select
               className="rounded-md pl-6 pr-16 border border-slate-300 bg-slate-300 focus:outline-none cursor-pointer text-black"
               onChange={handleCategoryChange}
-              value={categories ?? ''}
+              value={markdownPost.categories ?? ''}
             >
               {categoriesList.sort().map(category => (
                 <option key={category} value={category === '-' ? '' : category}>
@@ -118,21 +110,21 @@ export default function MarkdownSet({ markdown = emptyMarkdown, renderType }: Ma
             <span className="absolute w-8 h-full bg-gray-500 right-0 rounded-r-md border-none pointer-events-none dropdown-span"></span>
           </div>
           <div className="px-2 flex gap-2 items-center top-36 md:static">
-            {categories && (
+            {markdownPost.categories && (
               <span
                 className="h-fit w-fit px-2 text-white font-semibold cursor-pointer"
-                key={categories}
-                onClick={() => setCategory('')}
+                key={markdownPost.categories}
+                onClick={() => setMarkdownPost({ ...markdownPost, categories: '' })}
               >
-                {`#${categories}`}
+                {markdownPost.categories}
               </span>
             )}
           </div>
         </section>
       </section>
       <section className="grid lg:grid-cols-2 min-h-screen h-auto w-full 2xl:w-3/4 mx-auto mt-4 mb-8 relative border">
-        <MarkdownEditor markdown={markdownContent} setMarkdown={setMarkdownContent} />
-        <MarkdownViewer markdown={markdownContent} />
+        <MarkdownEditor markdown={markdownPost.content} setMarkdown={setMarkdownPost} />
+        <MarkdownViewer markdown={markdownPost.content} />
       </section>
     </main>
   );

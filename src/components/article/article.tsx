@@ -1,8 +1,6 @@
 import Category from './category';
 import NameAndInfo from './nameAndInfo';
 import ProfilImage from './profilImage';
-import { InferModel } from 'drizzle-orm';
-import { user } from '@/lib/UserSchema/schema';
 
 export type Post = {
   id: number;
@@ -11,7 +9,7 @@ export type Post = {
   createdAt: string;
   userName: string;
   categories: string | null;
-  createdBy: InferModel<typeof user>;
+  createdBy: { avatar: string | null };
 };
 
 const categories = ['category1', 'category2', 'category3', 'category4'];

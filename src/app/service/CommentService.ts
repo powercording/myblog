@@ -90,5 +90,18 @@ type WithTryCatch<F extends (...args: any[]) => any> = (
   ...args: Parameters<F>
 ) => Promise<ReturnType<F>>;
 
+
+ function withTryCatch<F extends (...args: any[]) => any>(fn: F): WithTryCatch<F> {
+    return async (...args) => {
+      try {
+        return await fn(...args);
+      } catch (e) {
+        console.log(e);
+        return null;
+      }
+    };
+  }
+
+
 const commentService = CommentService.getInstance();
 export default commentService;

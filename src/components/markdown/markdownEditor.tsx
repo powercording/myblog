@@ -1,11 +1,12 @@
 'use client';
 
 import { imageHandler } from '@/lib/client/S3/imageHandler';
+import { Markdown } from '@/service/postService';
 import { Dispatch, SetStateAction } from 'react';
 import { BiImageAdd } from 'react-icons/bi';
 
 type MarkdownEditor = {
-  setMarkdown: Dispatch<SetStateAction<string>>;
+  setMarkdown: Dispatch<SetStateAction<Markdown>>;
   markdown: string;
 };
 
@@ -14,7 +15,7 @@ export default function MarkdownEditor({ setMarkdown, markdown }: MarkdownEditor
     <>
       <textarea
         className="w-full text-gray-100 px-5 py-6 focus:outline-none border bg-zinc-600"
-        onChange={e => setMarkdown(e.target.value)}
+        onChange={e => setMarkdown(prev => ({ ...prev, content: e.target.value }))}
         value={markdown ?? null}
         placeholder="Write your markdown here..."
       />
