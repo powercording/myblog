@@ -2,6 +2,8 @@
 
 import { InferModel } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/nextAuth/options';
 const host = process.env.NEXT_PUBLIC_URL;
 type Markdown = Partial<InferModel<typeof post>>;
 
@@ -9,6 +11,7 @@ type Markdown = Partial<InferModel<typeof post>>;
 
 const insertPost = async (markdownModel: Markdown) => {
   // TODO: 인서트 로직에 세션검사 추가.
+  const session = await getServerSession(authOptions);
   const result = await fetch(`${host}/api/post`, {
     method: 'POST',
     body: JSON.stringify(markdownModel),

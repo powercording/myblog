@@ -51,6 +51,7 @@ export async function PATCH(req: Request) {
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
+  // 위 세션이 null 임
   const { content, title, categories } = await req.json();
 
   if (!session) {
