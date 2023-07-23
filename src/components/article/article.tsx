@@ -36,7 +36,7 @@ export default function Article({ article }: ArticleProps) {
       </section>
 
       <section className="p-2 w-[50%] flex flex-col relative">
-        <div className=" h-full flex flex-col md:flex-row justify-between group-hover/post:drop-shadow-lg">
+        <div className=" h-full w-full flex flex-col md:flex-row justify-between group-hover/post:drop-shadow-lg ">
           <NameAndInfo userName={userName} createdAt={createdAt} />
           <ProfilImage
             authorProfilImg={avatar}
