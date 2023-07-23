@@ -42,9 +42,9 @@ export default async function CommentArea({ postId, currentUser, onDelete, onSub
           </Comment>
         ))}
       </div>
-      <form action={onSubmit} className="flex flex-col relative">
+      <form action={onSubmit} className="flex flex-col relative py-5">
         <span className="text-gray-400 text-sm"> Write your comment </span>
-        <CommentBox />
+        <CommentBox curretnUser={currentUser} />
         <button type="submit" className="w-full bg-slate-800 p-2 rounded-md flex justify-center">
           <LiaCommentDotsSolid className="w-6 h-6" />
         </button>
