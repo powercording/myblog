@@ -42,6 +42,10 @@ export default async function Post({ params: { id } }: Params) {
     if (result.status === 200) {
       revalidatePath(`/post/[${id}]`);
     }
+
+    if (!result.ok) {
+      console.log(result.error);
+    }
   };
 
   const commentDelete = async (commentId: number) => {
@@ -51,6 +55,10 @@ export default async function Post({ params: { id } }: Params) {
     if (result.status === 200) {
       console.log('delete success');
       revalidatePath(`/post/[${id}]`);
+    }
+
+    if (!result.ok) {
+      console.log(result.error);
     }
   };
 

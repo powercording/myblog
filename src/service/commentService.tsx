@@ -16,7 +16,6 @@ const insertComment = withTryCatchSession(
         .setError({ message: '댓글을 입력해주세요.' })
         .build();
     }
-
     if (!session || !session.user) {
       return new ResponseBuilder()
         .setStatus(401)
@@ -49,9 +48,6 @@ const deleteComment = withTryCatchSession(async (deleteId: number, session?: Ses
       .setError({ message: '로그인이 필요합니다.' })
       .build();
   }
-
-  console.log(session.user.name);
-  console.log(deleteId);
 
   const deletedComment = await database
     .delete(comment)
