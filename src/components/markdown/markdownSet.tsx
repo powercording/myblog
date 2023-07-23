@@ -5,7 +5,6 @@ import MarkdownViewer from './markdownViewer';
 import MarkdownEditor from './markdownEditor';
 import { InferModel } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
-import { getSession } from 'next-auth/react';
 import { BsPencil } from 'react-icons/bs';
 import { insertPost, deletePost, updatePost, Markdown } from '@/service/postService';
 
@@ -35,7 +34,12 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
       return null;
     }
 
-    await insertPost(markdownPost);
+    const result = await insertPost(markdownPost);
+
+    if (!result) {
+      return alert('작성에 실패했습니다.');
+    }
+    window.location.href = `/post/${result.postId}`;
   };
 
   const handleMarkdownUpdate = async () => {
@@ -54,7 +58,15 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
   const hnadleMarkdownDelete = async () => {
     const isDelete = confirm('정말 삭제하시겠습니까?');
     if (!isDelete) return;
-    await deletePost(markdown?.id as number);
+
+    const result = await deletePost(markdown?.id as number);
+
+    if (!result) {
+      return alert('삭제에 실패했습니다.');
+    }
+    if (result.deleted) {
+      window.location.href = '/';
+    }
   };
 
   const handleMarkdownAutosave = () => {};

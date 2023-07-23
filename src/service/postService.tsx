@@ -1,7 +1,7 @@
 'use server';
 
 //TODO: 파일 전체에 콘솔로그 리턴값을 데이터로 교체 해야함
-import { InferModel, eq, and } from 'drizzle-orm';
+import { InferModel, eq, and, ConsoleLogWriter } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
 import { withTryCatchSession } from './withService';
 import { Session } from 'next-auth';
@@ -25,7 +25,7 @@ const insertPost = withTryCatchSession(async (markdownModel: Markdown, session?:
     return console.log('등록에 실패했습니다.');
   }
 
-  return console.log('잘 등록됬다고 생각합니다.');
+  return { postId: insertResult.insertId };
 });
 
 const deletePost = withTryCatchSession(async (id: number, session?: Session) => {
@@ -37,11 +37,13 @@ const deletePost = withTryCatchSession(async (id: number, session?: Session) => 
     .delete(post)
     .where(and(eq(post.id, id), eq(post.userName, session.user.name as string)));
 
+  console.log(deleted);
+
   if (deleted.rowsAffected === 0 || deleted.rowsAffected === undefined) {
-    return console.log('삭제에 실패했습니다.');
+    return { deleted: false };
   }
 
-  return console.log('잘 삭제됬다고 생각합니다.');
+  return { deleted: true };
 });
 
 const updatePost = withTryCatchSession(async (markdownModel: UpdateMarkdown, session?: Session) => {
