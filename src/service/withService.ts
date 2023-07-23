@@ -3,7 +3,7 @@
 import { authOptions } from '@/lib/nextAuth/options';
 import { getServerSession } from 'next-auth';
 
-type WithTryCatch<F extends (...args: any[]) => any> = (
+export type WithTryCatch<F extends (...args: any[]) => any> = (
   ...args: Parameters<F>
 ) => Promise<ReturnType<F>>;
 

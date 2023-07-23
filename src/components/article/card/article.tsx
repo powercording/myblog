@@ -1,6 +1,6 @@
 import Category from './category';
 import NameAndInfo from './nameAndInfo';
-import ProfilImage from './profilImage';
+import ProfilImage from '../profilImage';
 
 export type Post = {
   id: number;

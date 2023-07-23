@@ -1,4 +1,4 @@
-import LoginForm from '@/components/login/loginForm';
+import LoginForm from '@/components/auth/login/loginForm';
 import { findUser, authRequest } from '@/service/authService';
 
 export type LoginRequestResult = ReturnType<typeof findUser>;

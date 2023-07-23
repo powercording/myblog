@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 import Input from '@/components/input/input';
 import Button from '@/components/button/button';
 import { LoginRequestResult } from '@/app/(guestRoute)/login/page';
-import Spinner from '../loading/spinner';
+import Spinner from '../../loading/spinner';
 
 type LoginOkProp = {
   isEmailOk: true;

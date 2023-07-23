@@ -1,21 +1,19 @@
 'use client';
-
-import commentService from '@/app/service/CommentService';
 import { ComponentPropsWithRef } from 'react';
 
 interface DeleteIconButton extends ComponentPropsWithRef<'button'> {
   deleteId: number;
-  deleteApi: string;
   icon: React.ReactNode;
+  deleteApi: (commentId: number) => void;
 }
-export default function DeleteIconButton({ deleteId, deleteApi, icon, ...rest }: DeleteIconButton) {
+export default function DeleteIconButton({ deleteId, icon, deleteApi, ...rest }: DeleteIconButton) {
   const { className } = rest;
   const deleteHandler = async () => {
     const deleteConfirm = confirm('댓글을 삭제하시겠습니까?');
     if (!deleteConfirm) {
       return;
     }
-    await commentService.deleteComment(deleteApi, deleteId);
+    deleteApi(deleteId);
   };
 
   return (

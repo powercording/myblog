@@ -1,4 +1,4 @@
-import Article from '@/components/article/article';
+import Article from '@/components/article/card/article';
 import { database } from '@/database/databaseClient';
 import Link from 'next/link';
 

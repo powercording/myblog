@@ -5,7 +5,7 @@ import Input from '@/components/input/input';
 import { useState, useTransition } from 'react';
 import { CustomError } from '@/service/authService';
 import { redirect } from 'next/navigation';
-import Spinner from '../loading/spinner';
+import Spinner from '../../loading/spinner';
 
 interface JoinForm {
   joinAction: (email: string) => Promise<{ status: number; ok: boolean } | CustomError>;
