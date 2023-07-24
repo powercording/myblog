@@ -9,7 +9,6 @@ const openai = new OpenAIApi(config);
 export const runtime = 'edge';
 
 export async function POST(req: Request) {
-  console.log('ai 챗 힛');
   const { messages } = await req.json();
 
   const response = await openai.createChatCompletion({

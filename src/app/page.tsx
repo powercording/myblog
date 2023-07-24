@@ -30,7 +30,7 @@ export default async function Home() {
         <aside className="hidden md:block md:col-span-1">
           <div className="sticky top-12 p-3"></div>
         </aside>
-        <div className="md:hidden">312</div>
+        <div className="md:hidden"></div>
       </div>
     </main>
   );

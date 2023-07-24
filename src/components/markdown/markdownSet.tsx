@@ -34,12 +34,13 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
       return null;
     }
 
-    const result = await insertPost(markdownPost);
-
-    if (!result) {
-      return alert('작성에 실패했습니다.');
+    const postInsertResult = await insertPost(markdownPost);
+    if (!postInsertResult.ok || postInsertResult.status !== 200) {
+      return alert(postInsertResult.error?.message);
     }
-    window.location.href = `/post/${result.postId}`;
+    if (postInsertResult.ok === true) {
+      window.location.href = `/post/${postInsertResult.data}`;
+    }
   };
 
   const handleMarkdownUpdate = async () => {
@@ -52,19 +53,28 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
       return null;
     }
 
-    await updatePost({ ...markdown!, ...markdownPost });
+    const updateResult = await updatePost({ ...markdown!, ...markdownPost });
+
+    if (!updateResult.ok || updateResult.status !== 200) {
+      return alert(updateResult.error?.message);
+    }
+
+    if (updateResult.ok) {
+      window.location.href = `/post/${updateResult.data}`;
+    }
   };
 
   const hnadleMarkdownDelete = async () => {
     const isDelete = confirm('정말 삭제하시겠습니까?');
     if (!isDelete) return;
 
-    const result = await deletePost(markdown?.id as number);
+    const deleteResult = await deletePost(markdown?.id as number);
 
-    if (!result) {
-      return alert('삭제에 실패했습니다.');
+    if (!deleteResult.ok || deleteResult.status !== 200) {
+      return alert(deleteResult.error.message);
     }
-    if (result.deleted) {
+
+    if (deleteResult.ok) {
       window.location.href = '/';
     }
   };
