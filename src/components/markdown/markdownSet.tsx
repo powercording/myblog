@@ -15,7 +15,7 @@ type MarkdownSet = {
 
 // const emptyMarkdown: InferModel<typeof post> = {
 
-const categoriesList = ['-', 'javascript', 'typescript', 'react', 'nextjs', 'spring', 'kotlin'];
+const categoriesList = ['-', 'javascript', 'react', 'nextjs', 'spring', 'kotlin'];
 
 export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
   const [markdownPost, setMarkdownPost] = useState<Markdown>({
@@ -70,7 +70,7 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
 
     const deleteResult = await deletePost(markdown?.id as number);
 
-    if (!deleteResult.ok || deleteResult.status !== 200) {
+    if (!deleteResult.ok) {
       return alert(deleteResult.error.message);
     }
 
