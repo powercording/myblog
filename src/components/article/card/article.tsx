@@ -21,13 +21,12 @@ export default function Article({ article }: ArticleProps) {
 
   const { avatar } = createdBy;
   return (
-    <div className="w-full rounded-md flex h-48 bg-white cursor-pointer text-gray-400 group/post hover:bg-slate-100">
+    <div className="w-full rounded-md flex h-52 bg-gray-50 cursor-pointer text-gray-400 group/post hover:bg-slate-100">
       <section
-        className="w-[50%] p-2"
+        className="w-[50%] p-2 bg-no-repeat"
         style={{
           backgroundImage: `url(/defaultLanguage/${categories}.jpeg)`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
         }}
       >
         <div className="w-full h-full text-lg md:text-2xl text-blue-400 font-extrabold group-hover/post:drop-shadow-lg">
