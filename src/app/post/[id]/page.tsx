@@ -15,6 +15,7 @@ import PostHeader from '@/components/article/post/Header';
 import Content from '@/components/article/post/content';
 import ContentFallback from '@/components/article/post/contentFallback';
 import HeaderFallback from '@/components/article/post/headerFallback';
+import CommentFallback from '@/components/comment/commentFallback';
 export type Params = {
   params: {
     id: string;
@@ -72,7 +73,7 @@ export default async function Post({ params: { id } }: Params) {
           <Content postId={+id} />
         </Suspense>
         <aside className="lg:border-l border-t lg:border-t-0 w-full col-span-3 lg:col-span-1">
-          <Suspense fallback={<div>reply loading...</div>}>
+          <Suspense fallback={<CommentFallback />}>
             <CommentArea
               postId={+id}
               currentUser={currentUser!}

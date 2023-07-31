@@ -1,6 +1,6 @@
 'use client';
 
-import { imageHandler } from '@/lib/client/S3/imageHandler';
+import { imageUploader } from '@/lib/client/S3/imageHandler';
 import { Markdown } from '@/service/postService';
 import { Dispatch, SetStateAction } from 'react';
 import { BiImageAdd } from 'react-icons/bi';
@@ -11,6 +11,29 @@ type MarkdownEditor = {
 };
 
 export default function MarkdownEditor({ setMarkdown, markdown }: MarkdownEditor) {
+  const imageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const imageKey = await imageUploader(e);
+
+    if (!imageKey) {
+      return;
+    }
+
+    // const insertedImage = `![image](${process.env.NEXT_PUBLIC_S3_ENDPOINT}/${imageKey})`;
+    const insertedImage = ` <img src="${process.env.NEXT_PUBLIC_S3_ENDPOINT}/${imageKey}">`;
+    const textArea = e.target.previousElementSibling?.previousElementSibling as HTMLTextAreaElement;
+    const cursorPosition = textArea.selectionStart;
+
+    setMarkdown(prev => {
+      return {
+        ...prev,
+        content:
+          prev.content.slice(0, cursorPosition) +
+          insertedImage +
+          prev.content.slice(cursorPosition + 1),
+      };
+    });
+  };
+
   return (
     <>
       <textarea
@@ -26,7 +49,7 @@ export default function MarkdownEditor({ setMarkdown, markdown }: MarkdownEditor
         type="file"
         className="hidden"
         id="imageHandler"
-        onChange={async e => imageHandler(e, setMarkdown)}
+        onChange={async e => imageHandler(e)}
       />
     </>
   );

@@ -11,10 +11,10 @@ export default function ProfilImage({ authorProfilImg, ...rest }: ProfileImage) 
   return (
     <Image
       src={profileImg}
-      className={className}
       alt="User profile image"
       width={256}
       height={256}
+      className={className}
     />
   );
 }
