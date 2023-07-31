@@ -30,11 +30,14 @@ export default function LoginForm({ getUser }: LoginForm) {
   const userCheckisJoined = async (formData: FormData) => {
     startTransition(async () => {
       const user = await getUser(formData);
-      if ('error' in user) {
+      if (!user.ok) {
         setLoginState({ isEmailOk: false, errorMessage: user.error.message });
       }
-      if ('email' in user) {
-        setLoginState({ isEmailOk: true, email: user.email });
+      if (user.ok && !user.data) {
+        setLoginState({ isEmailOk: false, errorMessage: user.message });
+      }
+      if (user.ok && user.data) {
+        setLoginState({ isEmailOk: true, email: user.data.email });
       }
     });
   };

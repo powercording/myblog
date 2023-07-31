@@ -6,16 +6,12 @@ import { user as User } from '@/lib/UserSchema/schema';
 import { InferModel, eq, sql } from 'drizzle-orm';
 import { withTryCatch } from './withService';
 import { sendEmail } from './emailService';
+import ResponseBuilder from './ResponseBuilder';
 
 type UserModel = InferModel<typeof User>;
-type TokenModel = InferModel<typeof token>;
 
 export type CustomError = { error: { message: string }; status: number };
 const host = process.env.NEXT_PUBLIC_URL;
-
-const errorCreate = (status: number, message: string): CustomError => {
-  return { error: { message }, status };
-};
 
 const validateEmail = (email: string): boolean => {
   return /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email);
@@ -26,27 +22,47 @@ const validatePassword = (password: string): boolean => {
   return Number.isInteger(+password);
 };
 
-const findUser = withTryCatch(async (email: string): Promise<UserModel | CustomError | {}> => {
+const findUser = withTryCatch(async (email: string) => {
   if (!validateEmail(email)) {
-    return errorCreate(400, '올바른 이메일을 입력하세요');
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(400)
+      .setError({ message: '올바른 이메일을 입력하세요' })
+      .build();
   }
   const user = await database.query.user.findFirst({ where: eq(User.email, email) });
-  return user ?? {};
+  if (!user) {
+    return new ResponseBuilder()
+      .setOk(true)
+      .setStatus(200)
+      .setData(user)
+      .setMessage('가입되어있지 않은 이메일이에요')
+      .build();
+  }
+  return new ResponseBuilder().setOk(true).setStatus(200).setData(user).build();
 });
 
 //FIXME: 해당 함수를 nextauth 에 사용해보고, 안되면 끝내버리자.
-const findToken = async (password: string): Promise<TokenModel | CustomError> => {
+const findToken = async (password: string) => {
   if (validatePassword(password)) {
-    return errorCreate(400, '올바른 비밀번호를 입력하세요1');
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(400)
+      .setError({ message: '비밀번호를 확인해주세요' })
+      .build();
   }
 
   const loginToken = await database.query.token.findFirst({ where: eq(token.payload, password) });
 
   if (!loginToken) {
-    return errorCreate(400, '올바른 비밀번호를 입력하세요2');
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(400)
+      .setError({ message: '비밀번호를 확인해주세요' })
+      .build();
   }
 
-  return loginToken;
+  return new ResponseBuilder().setOk(true).setStatus(200).setData(loginToken).build();
 };
 
 const createToken = withTryCatch(async (userId: number, payload: number): Promise<void> => {
@@ -62,21 +78,32 @@ const authRequest = withTryCatch(async (user: UserModel) => {
   ]);
 
   if (email.status === 'rejected' || token.status === 'rejected') {
-    return errorCreate(500, '이메일 전송에 실패했습니다. 다시 시도해주세요');
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(500)
+      .setError({ message: '이메일전송을 실패했어요' })
+      .build();
   }
-
-  return { ok: true, status: 200 };
+  return new ResponseBuilder().setOk(true).setStatus(200).build();
 });
 
-const join = async (email: string): Promise<{ status: number, ok: boolean } | CustomError> => {
+const join = async (email: string) => {
   const user = await findUser(email);
 
-  if ('error' in user) {
-    return errorCreate(user.status, user.error.message);
+  if (!user.ok) {
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(user.status)
+      .setError({ message: user.error?.message as string })
+      .build();
   }
 
-  if ('email' in user) {
-    return errorCreate(400, '이미 가입된 이메일입니다.');
+  if (user.ok && user.data) {
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(400)
+      .setError({ message: '이미 가입된 이메일입니다.' })
+      .build();
   }
 
   const dafualtImageIndex = Math.round(Math.random() * 10);
@@ -90,11 +117,15 @@ const join = async (email: string): Promise<{ status: number, ok: boolean } | Cu
   });
 
   if (joinUser.rowsAffected === 0 || joinUser.rowsAffected === undefined) {
-    return errorCreate(500, '회원가입이 실패 했습니다. 다시 시도해주세요');
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(500)
+      .setError({ message: '회원가입이 되지 않았어요. 다시 시도해주세요' })
+      .build();
   }
 
   // TODO: or Redirect to login page
-  return { status: 200, ok: true };
+  return new ResponseBuilder().setOk(true).setStatus(200).build();
 };
 
 const login = async (email: string, password: string): Promise<void> => {

@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import MenuItem, { MenuListProps } from './menuItem';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { Session } from 'next-auth';
+import { BsFillSignIntersectionFill } from 'react-icons/bs';
 
 interface MenuComponentProps {
   menuList: MenuListProps[];
@@ -20,7 +21,9 @@ export default function MenuLayout({ menuList, session }: MenuComponentProps) {
         className="md:hidden absolute p-5 z-50 bg-zinc-900 bg-opacity-60 rounded-full"
         onClick={() => setIsMenuOpen(prev => !prev)}
       >
-        <SlOptionsVertical className={`${isMenuOpen ? 'rotate-90' : ''} transition-transform`} />
+        <BsFillSignIntersectionFill
+          className={`${isMenuOpen ? 'rotate-90' : ''} transition-transform`}
+        />
       </button>
       <Nav.List
         ref={menuRef}

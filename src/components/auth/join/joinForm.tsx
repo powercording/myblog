@@ -3,12 +3,12 @@
 import Button from '@/components/button/button';
 import Input from '@/components/input/input';
 import { useState, useTransition } from 'react';
-import { CustomError } from '@/service/authService';
 import { redirect } from 'next/navigation';
 import Spinner from '../../loading/spinner';
+import { Rejected, Resolved } from '@/service/ResponseBuilder';
 
 interface JoinForm {
-  joinAction: (email: string) => Promise<{ status: number; ok: boolean } | CustomError>;
+  joinAction: (email: string) => Promise<Resolved | Rejected>;
 }
 
 export default function JoinForm({ joinAction }: JoinForm) {
@@ -24,11 +24,11 @@ export default function JoinForm({ joinAction }: JoinForm) {
     startTransition(async () => {
       const result = await joinAction(email);
 
-      if ('error' in result!) {
+      if (!result.ok) {
         return setErrorMessage(result.error.message);
       }
-      if ('status' in result!) {
-        result.status === 200 ? alert('가입이 완료되었습니다.') : alert('가입에 실패했습니다.');
+      if (result.ok) {
+        result.status === 200 ? alert('가입이 완료되었습니다.') : alert('가입에 실패했어요.');
         redirect('/login');
       }
     });

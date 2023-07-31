@@ -10,13 +10,12 @@ export default async function Login() {
     const email = formData.get('email') as string;
     const user = await findUser(email);
 
-    if ('email' in user) {
-      const authResult = await authRequest(user);
-      if ('error' in authResult) {
+    if (user.ok && user.data) {
+      const authResult = await authRequest(user.data);
+      if (!authResult.ok) {
         return authResult;
       }
     }
-
     return user;
   };
   return <LoginForm getUser={getUserFromServer} />;
