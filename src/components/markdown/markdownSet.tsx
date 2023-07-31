@@ -7,6 +7,7 @@ import { InferModel } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
 import { BsPencil } from 'react-icons/bs';
 import { insertPost, deletePost, updatePost, Markdown } from '@/service/postService';
+import categoriesList from '@/lib/asset/category';
 
 type MarkdownSet = {
   renderType: 'edit' | 'create';
@@ -14,8 +15,6 @@ type MarkdownSet = {
 };
 
 // const emptyMarkdown: InferModel<typeof post> = {
-
-const categoriesList = ['-', 'javascript', 'react', 'nextjs', 'spring', 'kotlin'];
 
 export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
   const [markdownPost, setMarkdownPost] = useState<Markdown>({
