@@ -1,6 +1,11 @@
 import Link from 'next/link';
 import categoriesList from '@/lib/asset/category';
-export default function FilteredCategory({ current }: { current: string }) {
+
+interface FilteredCategory {
+  current: string | string[] | undefined;
+}
+
+export default function FilteredCategory({ current }: FilteredCategory) {
   return categoriesList.map(category => {
     if (category === '-') {
       return (

@@ -7,7 +7,7 @@ interface Home {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function Home({ searchParams }) {
+export default async function Home({ searchParams }: Home) {
   const getPosts = await database.query.post.findMany({
     with: {
       createdBy: {
