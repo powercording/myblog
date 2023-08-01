@@ -30,11 +30,11 @@ export default async function MyPage() {
   };
 
   return (
-    <main className="flex flex-col min-h-screen items-center w-full xl:w-4/6 mx-auto mt-6 pt-12 p-2 gap-3">
+    <main className="mx-auto mt-6 flex min-h-screen w-full flex-col items-center gap-3 p-2 pt-12 xl:w-4/6">
       <h1>{data.name} myPage</h1>
       <form>
         <div className="grid grid-cols-3">
-          <ProfilImage authorProfilImg={data.avatar} className="w-28 h28 col-span-1" />
+          <ProfilImage authorProfilImg={data.avatar} className="h28 col-span-1 w-28" />
           <div className="col-span-2 flex flex-col">
             <FileInput onUpdate={onUpdate} />
           </div>

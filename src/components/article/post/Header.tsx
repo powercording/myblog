@@ -23,17 +23,17 @@ export default async function PostHeader({ postId, currentUser }: PostHeader) {
   const isOwner = currentUser === headerInfo.userName;
 
   return (
-    <header className="mt-12 min-h-fit  bg-slate-800 relative">
-      <h1 className="block w-full 2xl:w-3/4 mx-auto p-5 text-2xl font-bold text-blue-500">
+    <header className="relative mt-12  min-h-fit bg-slate-800">
+      <h1 className="mx-auto block w-full p-5 text-2xl font-bold text-blue-500 2xl:w-3/4">
         {headerInfo.title}
       </h1>
-      <address className="block w-full 2xl:w-3/4 mx-auto p-5 text-gray-400">
+      <address className="mx-auto block w-full p-5 text-gray-400 2xl:w-3/4">
         <p>{headerInfo.userName}</p>
         <div className="flex">
           <time>{dateFormatter(headerInfo.createdAt)}</time>
           {isOwner && (
             <Link href={`edit/${postId}`} className="absolute right-5 top-5">
-              <button className="p-2 rounded-md hover:bg-blue-100 bg-white text-blue-700 w-fit h-9">
+              <button className="h-9 w-fit rounded-md bg-white p-2 text-blue-700 hover:bg-blue-100">
                 <FiTool />
               </button>
             </Link>

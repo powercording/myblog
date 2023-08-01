@@ -38,10 +38,10 @@ export default function JoinForm({ joinAction }: JoinForm) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <form action={handleSubmit} className="grid gap-5 relative">
+      <form action={handleSubmit} className="relative grid gap-5">
         <Input type="email" name="email" placeholder="이메일" required />
         <Button type="submit">{ButtonText}</Button>
-        <span className="text-red-300 text-xs px-1">{errorMessage ?? ''}</span>
+        <span className="px-1 text-xs text-red-300">{errorMessage ?? ''}</span>
       </form>
     </main>
   );

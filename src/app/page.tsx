@@ -23,14 +23,14 @@ export default async function Home({ searchParams }: Home) {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-9 px-3 md:p-12  mx-auto">
-      <div className="py-12 min-h-screen h-auto grid grid-cols-5 w-full xl:w-4/6 mx-auto gap-3">
-        <aside className="hidden md:block md:col-span-1">
+    <main className="mx-auto flex min-h-screen flex-col items-center justify-between px-3 py-9  md:p-12">
+      <div className="mx-auto grid h-auto min-h-screen w-full grid-cols-5 gap-3 py-12 xl:w-4/6">
+        <aside className="hidden md:col-span-1 md:block">
           <div className="sticky top-12 p-3">
             <FilteredCategory current={searchParams.category} />
           </div>
         </aside>
-        <article className="col-span-5 md:col-span-3 flex flex-col gap-3">
+        <article className="col-span-5 flex flex-col gap-3 md:col-span-3">
           {posts.length ? (
             posts.map(post => {
               return (
@@ -40,14 +40,14 @@ export default async function Home({ searchParams }: Home) {
               );
             })
           ) : (
-            <Link className="self-center text-yellow-300 p-5" href="/">
+            <Link className="self-center p-5 text-yellow-300" href="/">
               이 카테고리의 포스트는 아직 작성되지 않았어요.
               <br />
               터치하면 메인으로 돌아갑니다.
             </Link>
           )}
         </article>
-        <aside className="hidden md:block md:col-span-1">
+        <aside className="hidden md:col-span-1 md:block">
           <div className="sticky top-12 p-3"></div>
         </aside>
         <div className="md:hidden"></div>

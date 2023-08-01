@@ -92,9 +92,9 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
   return (
     <main>
       <section className="mt-24 min-h-fit w-full">
-        <div className="px-5 w-full 2xl:w-3/4 mx-auto flex items-center">
+        <div className="mx-auto flex w-full items-center px-5 2xl:w-3/4">
           <input
-            className="block p-3 text-2xl text-gray-200 focus:outline-none bg-transparent w-full"
+            className="block w-full bg-transparent p-3 text-2xl text-gray-200 focus:outline-none"
             placeholder="제목"
             type="text"
             value={markdownPost.title ?? ''}
@@ -102,23 +102,23 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
           />
           <div className="absolute right-5 top-16 flex items-center gap-2">
             <button
-              className="p-2 rounded-md hover:bg-blue-100 bg-white text-blue-700 w-fit h-9"
+              className="h-9 w-fit rounded-md bg-white p-2 text-blue-700 hover:bg-blue-100"
               onClick={buttonOneCallback}
             >
               <BsPencil />
             </button>
             <button
-              className="p-2 rounded-md hover:bg-blue-100 bg-white text-blue-700 w-fit h-9"
+              className="h-9 w-fit rounded-md bg-white p-2 text-blue-700 hover:bg-blue-100"
               onClick={buttonTwoCallback}
             >
               {buttonTwoText}
             </button>
           </div>
         </div>
-        <section className="w-full 2xl:w-3/4 mx-auto py-2 flex text-gray-400 px-5">
+        <section className="mx-auto flex w-full px-5 py-2 text-gray-400 2xl:w-3/4">
           <div className="relative">
             <select
-              className="rounded-md pl-6 pr-16 border border-slate-300 bg-slate-300 focus:outline-none cursor-pointer text-black"
+              className="cursor-pointer rounded-md border border-slate-300 bg-slate-300 pl-6 pr-16 text-black focus:outline-none"
               onChange={handleCategoryChange}
               value={markdownPost.categories ?? ''}
             >
@@ -128,12 +128,12 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
                 </option>
               ))}
             </select>
-            <span className="absolute w-8 h-full bg-gray-500 right-0 rounded-r-md border-none pointer-events-none dropdown-span"></span>
+            <span className="dropdown-span pointer-events-none absolute right-0 h-full w-8 rounded-r-md border-none bg-gray-500"></span>
           </div>
-          <div className="px-2 flex gap-2 items-center top-36 md:static">
+          <div className="top-36 flex items-center gap-2 px-2 md:static">
             {markdownPost.categories && (
               <span
-                className="h-fit w-fit px-2 text-white font-semibold cursor-pointer"
+                className="h-fit w-fit cursor-pointer px-2 font-semibold text-white"
                 key={markdownPost.categories}
                 onClick={() => setMarkdownPost({ ...markdownPost, categories: '' })}
               >
@@ -143,7 +143,7 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
           </div>
         </section>
       </section>
-      <section className="grid lg:grid-cols-2 min-h-screen h-auto w-full 2xl:w-3/4 mx-auto mt-4 mb-8 relative border">
+      <section className="relative mx-auto mb-8 mt-4 grid h-auto min-h-screen w-full border lg:grid-cols-2 2xl:w-3/4">
         <MarkdownEditor markdown={markdownPost.content} setMarkdown={setMarkdownPost} />
         <MarkdownViewer markdown={markdownPost.content} />
       </section>

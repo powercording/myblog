@@ -21,29 +21,29 @@ export default function Article({ article }: ArticleProps) {
 
   const { avatar } = createdBy;
   return (
-    <div className="w-full rounded-md flex h-52 bg-gray-50 cursor-pointer text-gray-400 group/post hover:bg-slate-100">
+    <div className="group/post flex h-52 w-full cursor-pointer rounded-md bg-gray-50 text-gray-400 hover:bg-slate-100">
       <section
-        className="w-[50%] p-2 bg-no-repeat"
+        className="w-[50%] bg-no-repeat p-2"
         style={{
           backgroundImage: `url(/defaultLanguage/${categories}.jpeg)`,
           backgroundSize: 'cover',
         }}
       >
-        <div className="w-full h-full text-lg md:text-2xl text-blue-400 font-extrabold group-hover/post:drop-shadow-lg">
-          <p className="line-clamp-3 md:line-clamp-2 text-ellipsis">{title}</p>
+        <div className="h-full w-full text-lg font-extrabold text-blue-400 group-hover/post:drop-shadow-lg md:text-2xl">
+          <p className="line-clamp-3 text-ellipsis md:line-clamp-2">{title}</p>
         </div>
       </section>
 
-      <section className="p-2 w-[50%] flex flex-col relative">
-        <div className=" h-full w-full flex flex-col md:flex-row justify-between group-hover/post:drop-shadow-lg ">
+      <section className="relative flex w-[50%] flex-col p-2">
+        <div className=" flex h-full w-full flex-col justify-between group-hover/post:drop-shadow-lg md:flex-row ">
           <NameAndInfo userName={userName} createdAt={createdAt} />
           <ProfilImage
             authorProfilImg={avatar}
-            className="w-12 md:w-16 h-12 md:h-16 border rounded-full"
+            className="h-12 w-12 rounded-full border md:h-16 md:w-16"
           />
         </div>
 
-        <div className="h-full flex items-end flex-wrap max-h-[50%] overflow-hidden gap-1">
+        <div className="flex h-full max-h-[50%] flex-wrap items-end gap-1 overflow-hidden">
           <Category categories={categories} />
         </div>
       </section>

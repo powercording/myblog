@@ -10,7 +10,7 @@ export default function Input({ as, ...props }: InputProps) {
   const inputStyle = style || {};
   return (
     <input
-      className="p-4 rounded-md focus:outline-none valid:focus:ring-2 valid:focus:ring-green-500 required:focus:ring-2 required:focus:ring-red-500 peer text-black border"
+      className="peer rounded-md border p-4 text-black focus:outline-none required:focus:ring-2 required:focus:ring-red-500 valid:focus:ring-2 valid:focus:ring-green-500"
       style={inputStyle}
       {...props}
     />

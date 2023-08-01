@@ -16,7 +16,7 @@ export default function FilteredCategory({ current }: FilteredCategory) {
     }
     return (
       <Link href={`/?category=${category}`} key={category}>
-        <div className={`p-3 mainCategory ${category === current ? 'text-yellow-300' : ''}`}>
+        <div className={`mainCategory p-3 ${category === current ? 'text-yellow-300' : ''}`}>
           {category}
         </div>
       </Link>

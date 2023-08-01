@@ -27,38 +27,38 @@ export default function AiChatForm() {
 
   return (
     <>
-      <section className="self-center w-full lg:w-[600px] py-14">
+      <section className="w-full self-center py-14 lg:w-[600px]">
         {messages.length ? (
           messages.map(message => {
             return <AiChatRow key={message.id} message={message} />;
           })
         ) : (
-          <p className="text-center text-gray-400 mt-5 text-sm">인공지능과 채팅을 해보세요!</p>
+          <p className="mt-5 text-center text-sm text-gray-400">인공지능과 채팅을 해보세요!</p>
         )}
       </section>
 
       <form
-        className="w-full lg:w-[600px] fixed bottom-0 bg-white border rounded-tr-lg rounded-tl-lg self-center text-center p-2 space-y-2 h-auto"
+        className="fixed bottom-0 h-auto w-full space-y-2 self-center rounded-tl-lg rounded-tr-lg border bg-white p-2 text-center lg:w-[600px]"
         onSubmit={handleSubmit}
       >
-        <div className="relative flex flex-col w-full px-8 overflow-hidden max-h-60 grow bg-background rounded-md border sm:px-12">
+        <div className="bg-background relative flex max-h-60 w-full grow flex-col overflow-hidden rounded-md border px-8 sm:px-12">
           <textarea
             rows={1}
             style={{ height: '62px !important' }}
-            className="w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm h-auto text-black"
+            className="h-auto w-full resize-none bg-transparent px-4 py-[1.3rem] text-black focus-within:outline-none sm:text-sm"
             value={input}
             onChange={handleChange}
             onKeyDown={handleEnter}
             placeholder="무엇을 도와드릴까요?"
           />
-          <button type="submit" className="absolute p-5 right-2 text-black">
+          <button type="submit" className="absolute right-2 p-5 text-black">
             <AiOutlineEnter />
           </button>
         </div>
         <input
           disabled
           placeholder="powered by powercording"
-          className="w-full text-center bg-transparent "
+          className="w-full bg-transparent text-center "
         />
       </form>
     </>

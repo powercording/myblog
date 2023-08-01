@@ -7,10 +7,10 @@ interface ErrorPage {
 
 export default function PageError({ error, reset }: ErrorPage) {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center gap-4">
-      <h1 className="font-bold text-xl">{error.name}</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4">
+      <h1 className="text-xl font-bold">{error.name}</h1>
       something went wrong!
-      <button className="p-2 bg-red-400 text-white rounded-md hover:bg-red-600" onClick={reset}>
+      <button className="rounded-md bg-red-400 p-2 text-white hover:bg-red-600" onClick={reset}>
         reload page
       </button>
     </div>

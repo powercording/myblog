@@ -18,7 +18,7 @@ export default async function Content({ postId }: Content) {
   }
 
   return (
-    <article className="col-span-3 lg:col-span-2 w-full">
+    <article className="col-span-3 w-full lg:col-span-2">
       <MarkdownViewer markdown={markdown.content} />
     </article>
   );

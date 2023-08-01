@@ -9,7 +9,7 @@ export default function Category({ categories }: Category) {
     <>
       {categories && (
         <span
-          className="px-2 py-1 rounded-full border border-gray-400 text-xs bg-slate-400 text-white group-hover/post:bg-slate-700 group-hover/post:drop-shadow-lg"
+          className="rounded-full border border-gray-400 bg-slate-400 px-2 py-1 text-xs text-white group-hover/post:bg-slate-700 group-hover/post:drop-shadow-lg"
           key={categories}
         >
           {categories}

@@ -68,11 +68,11 @@ export default async function Post({ params: { id } }: Params) {
       <Suspense fallback={<HeaderFallback />}>
         <PostHeader postId={+id} currentUser={currentUser!} />
       </Suspense>
-      <div className="grid grid-cols-3 w-full 2xl:w-3/4 justify-items-center mx-auto pt-2 gap-3">
+      <div className="mx-auto grid w-full grid-cols-3 justify-items-center gap-3 pt-2 2xl:w-3/4">
         <Suspense fallback={<ContentFallback />}>
           <Content postId={+id} />
         </Suspense>
-        <aside className="lg:border-l border-t lg:border-t-0 w-full col-span-3 lg:col-span-1">
+        <aside className="col-span-3 w-full border-t lg:col-span-1 lg:border-l lg:border-t-0">
           <Suspense fallback={<CommentFallback />}>
             <CommentArea
               postId={+id}

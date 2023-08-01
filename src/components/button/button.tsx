@@ -12,7 +12,7 @@ export default function Button<C extends React.ElementType>({ as, ...props }: Bu
     <Component
       {...props}
       type={props.type ?? 'button'}
-      className="bg-blue-200 p-2 rounded-md text-gray-400 peer-valid:text-white peer-valid:bg-blue-400 peer-valid:hover:bg-blue-500 flex justify-center items-center h-[42px]"
+      className="flex h-[42px] items-center justify-center rounded-md bg-blue-200 p-2 text-gray-400 peer-valid:bg-blue-400 peer-valid:text-white peer-valid:hover:bg-blue-500"
       style={style}
     />
   );

@@ -22,7 +22,7 @@ export default function HeightControlTextArea({
 
   return (
     <textarea
-      className="w-full text-gray-100 py-3 px-5 focus:outline-none border bg-zinc-600 resize-none h-auto "
+      className="h-auto w-full resize-none border bg-zinc-600 px-5 py-3 text-gray-100 focus:outline-none "
       onChange={handleContentInput}
       placeholder={writeAble ? '댓글을 입력해주세요.' : '로그인 후 댓글을 작성할 수 있습니다.'}
       rows={1}

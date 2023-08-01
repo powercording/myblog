@@ -18,8 +18,8 @@ export default function FileInput({ onUpdate }: FileInputProps) {
   return (
     <input
       type="file"
-      className="file:mr-4 file:py-2 file:px-4 bg-gray-200 text-black rounded-sm file:rounded-md file:border-0
-              file:text-none file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 w-full"
+      className="file:text-none w-full rounded-sm bg-gray-200 text-black file:mr-4 file:rounded-md file:border-0
+              file:bg-violet-50 file:px-4 file:py-2 file:font-semibold file:text-violet-700 hover:file:bg-violet-100"
       onChange={onImageChange}
     />
   );

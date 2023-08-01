@@ -89,11 +89,11 @@ export default function LoginForm({ getUser }: LoginForm) {
           disabled={!loginState.isEmailOk}
         />
         <Button type="submit">{loginButtonText}</Button>
-        <span className="text-red-300  text-xs px-1">
+        <span className="px-1  text-xs text-red-300">
           {errorMessage ?? ''}
           {loginState.isEmailOk && (
             <p
-              className="text-blue-300 underline-offset-2 underline cursor-pointer"
+              className="cursor-pointer text-blue-300 underline underline-offset-2"
               onClick={reSetState}
             >
               다시 입력하기

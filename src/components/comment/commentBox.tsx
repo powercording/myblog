@@ -10,7 +10,7 @@ interface CommentBox {
 
 export default function CommentBox({ curretnUser }: CommentBox) {
   const [content, setContent] = useState<string>('');
-  
+
   const isLogedin = curretnUser !== '' && curretnUser !== null && curretnUser !== undefined;
 
   return (

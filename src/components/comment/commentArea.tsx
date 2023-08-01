@@ -27,8 +27,8 @@ export default async function CommentArea({ postId, currentUser, onDelete, onSub
   });
 
   return (
-    <div className="w-full p-5 sticky top-20">
-      <div className="w-full grid gap-3">
+    <div className="sticky top-20 w-full p-5">
+      <div className="grid w-full gap-3">
         {comments?.map(comment => (
           <Comment key={comment.id} comment={comment}>
             {currentUser === comment.userName && (
@@ -42,11 +42,11 @@ export default async function CommentArea({ postId, currentUser, onDelete, onSub
           </Comment>
         ))}
       </div>
-      <form action={onSubmit} className="flex flex-col relative py-5">
-        <span className="text-gray-400 text-sm"> Write your comment </span>
+      <form action={onSubmit} className="relative flex flex-col py-5">
+        <span className="text-sm text-gray-400"> Write your comment </span>
         <CommentBox curretnUser={currentUser} />
-        <button type="submit" className="w-full bg-slate-800 p-2 rounded-md flex justify-center">
-          <LiaCommentDotsSolid className="w-6 h-6" />
+        <button type="submit" className="flex w-full justify-center rounded-md bg-slate-800 p-2">
+          <LiaCommentDotsSolid className="h-6 w-6" />
         </button>
       </form>
     </div>
