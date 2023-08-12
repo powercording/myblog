@@ -13,7 +13,7 @@ export type MarkdownViewerType = {
 export default function MarkdownViewer({ markdown }: MarkdownViewerType) {
   return (
     <ReactMarkdown
-      className="markdown prose max-w-full items-center overflow-y-auto overflow-ellipsis break-words px-5 py-6 text-gray-200
+      className="markdown prose max-w-full items-center  overflow-y-auto overflow-ellipsis break-words px-5 py-6 text-gray-200
        prose-h1:text-gray-50  prose-h2:text-blue-200 prose-h3:text-green-200 prose-a:text-red-400
         prose-blockquote:text-sky-300 prose-strong:text-gray-200 prose-pre:p-0 prose-table:text-gray-200 prose-thead:text-white
         prose-th:text-white"
