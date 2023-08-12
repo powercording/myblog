@@ -10,7 +10,8 @@
     "migrations:generate": "drizzle-kit generate:mysql",
     "migrations:push": "drizzle-kit push:mysql",
     "migrations:pull": "drizzle-kit introspect:mysql --config=drizzle.config.js",
-    "studio": "drizzle-kit studio"
+    "studio": "drizzle-kit studio",
+    "test": "vitest"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.374.0",
