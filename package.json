@@ -52,8 +52,10 @@
     "@types/react-syntax-highlighter": "^15.5.7",
     "drizzle-kit": "^0.19.10",
     "jsdom": "^22.1.0",
+    "msw": "^1.2.3",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
+    "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.34.1"
   }
 }
