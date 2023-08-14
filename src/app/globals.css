@@ -78,3 +78,55 @@ body {
 .mainCategory {
   text-transform: uppercase;
 }
+.toast-container {
+  position: fixed;
+  z-index: 9999;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.top-left {
+  top: 0;
+  left: 0;
+}
+
+.top-right {
+  top: 0;
+  right: 0;
+}
+
+.top-center {
+  top: 0;
+  left: 50%;
+  translate: -50%;
+}
+
+.bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+.bottom-center {
+  bottom: 0;
+  left: 50%;
+  translate: -50%;
+}
+
+.warn {
+  color: red;
+}
+
+.success {
+  color: blue;
+}
+
+.info {
+  color: black;
+}

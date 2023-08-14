@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useContext } from 'react';
 import { signIn } from 'next-auth/react';
 import Input from '@/components/input/input';
 import Button from '@/components/button/button';
 import { LoginRequestResult } from '@/app/(guestRoute)/login/page';
 import Spinner from '../../loading/spinner';
+import { useToast } from '@/context/useToast';
 
 type LoginOkProp = {
   isEmailOk: true;
@@ -26,6 +27,7 @@ interface LoginForm {
 export default function LoginForm({ getUser }: LoginForm) {
   const [loginState, setLoginState] = useState<LoginProp>({ isEmailOk: false });
   const [isPending, startTransition] = useTransition();
+  const { addToast } = useToast();
 
   const userCheckisJoined = async (formData: FormData) => {
     startTransition(async () => {
@@ -34,6 +36,7 @@ export default function LoginForm({ getUser }: LoginForm) {
         setLoginState({ isEmailOk: false, errorMessage: user.error.message });
       }
       if (user.ok && !user.data) {
+        addToast(user.message, { type: 'warn' });
         setLoginState({ isEmailOk: false, errorMessage: user.message });
       }
       if (user.ok && user.data) {

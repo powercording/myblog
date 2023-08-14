@@ -4,6 +4,8 @@ import { MenuListProps } from '@/components/menu/menuItem';
 import MenuLayout from '@/components/menu/menuLayout';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/nextAuth/options';
+import ToastContextProvider from '@/context/ToastContextProvider';
+import ToastViewer from '@/context/toastViewer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -70,15 +72,18 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   }
 
   return (
-    <html lang="en">
-      <body className={`${inter.className} h-auto min-h-screen`}>
-        <MenuLayout menuList={currentMenu} session={session}></MenuLayout>
-        {children}
-        <footer className="flex h-20 w-full items-center justify-center gap-5 bg-gray-900 text-gray-400">
-          <span>powered by Next.js | author: powercording</span>
-          <span>HP: 01020732223</span>
-        </footer>
-      </body>
-    </html>
+    <ToastContextProvider>
+      <html lang="en">
+        <body className={`${inter.className} h-auto min-h-screen`}>
+          <MenuLayout menuList={currentMenu} session={session}></MenuLayout>
+          {children}
+          <footer className="flex h-20 w-full items-center justify-center gap-5 bg-gray-900 text-gray-400">
+            <span>powered by Next.js | author: powercording</span>
+            <span>HP: 01020732223</span>
+          </footer>
+          <ToastViewer />
+        </body>
+      </html>
+    </ToastContextProvider>
   );
 }
