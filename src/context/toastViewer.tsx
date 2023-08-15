@@ -44,7 +44,9 @@ interface ToastMessageProps {
 function ToastMessage({ toast, removeToast }: ToastMessageProps) {
   return (
     <div
-      className={`flex h-12 w-full items-center justify-center rounded-md bg-green-200 p-4 ${toast.type} text-xs md:w-[200px]`}
+      className={`flex h-12 w-full items-center justify-center rounded-md bg-green-200 p-4 ${toast.type} animate-fadeIn cursor-pointer
+      text-xs md:w-[300px]
+      `}
       onClick={() => removeToast(toast.id)}
     >
       {toast.text}

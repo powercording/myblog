@@ -12,6 +12,17 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      keyframes: {
+        fade: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '20%': { opacity: '1', transform: 'translateY(0)' },
+          '85%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(-20)' },
+        }
+      },
+      animation: {
+        fadeIn: 'fade 3s ease-out',
+      }
     },
   },
   variants: {},

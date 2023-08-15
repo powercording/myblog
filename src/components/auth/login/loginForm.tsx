@@ -33,6 +33,7 @@ export default function LoginForm({ getUser }: LoginForm) {
     startTransition(async () => {
       const user = await getUser(formData);
       if (!user.ok) {
+        addToast(user.error.message, { type: 'warn' });
         setLoginState({ isEmailOk: false, errorMessage: user.error.message });
       }
       if (user.ok && !user.data) {
@@ -47,6 +48,7 @@ export default function LoginForm({ getUser }: LoginForm) {
 
   const onLogin = async (formData: FormData) => {
     if (!loginState.isEmailOk) {
+      addToast('올바르지 않은 접근입니다.', { type: 'warn' });
       return alert('올바르지 않은 접근입니다.');
     }
     const password = formData.get('password') as string;
@@ -57,6 +59,7 @@ export default function LoginForm({ getUser }: LoginForm) {
         password,
         callbackUrl: '/',
       });
+      addToast(`환영합니다 ${loginState.email}`, { type: 'success' });
     });
   };
 

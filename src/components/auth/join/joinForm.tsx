@@ -6,6 +6,7 @@ import { useState, useTransition } from 'react';
 import { redirect } from 'next/navigation';
 import Spinner from '../../loading/spinner';
 import { Rejected, Resolved } from '@/service/ResponseBuilder';
+import { useToast } from '@/context/useToast';
 
 interface JoinForm {
   joinAction: (email: string) => Promise<Resolved | Rejected>;
@@ -14,6 +15,7 @@ interface JoinForm {
 export default function JoinForm({ joinAction }: JoinForm) {
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+  const { addToast } = useToast();
 
   const handleSubmit = async (formData: FormData) => {
     const email = formData.get('email') as string;
@@ -25,10 +27,14 @@ export default function JoinForm({ joinAction }: JoinForm) {
       const result = await joinAction(email);
 
       if (!result.ok) {
+        addToast(result.error.message, { type: 'warn' });
         return setErrorMessage(result.error.message);
       }
       if (result.ok) {
-        result.status === 200 ? alert('가입이 완료되었습니다.') : alert('가입에 실패했어요.');
+        // result.status === 200 ? alert('가입이 완료되었습니다.') : alert('가입에 실패했어요.');
+        result.status === 200
+          ? addToast('가입이 완료되었습니다.', { type: 'success' })
+          : addToast('가입에 실패했어요.', {type: 'warn'});
         redirect('/login');
       }
     });
