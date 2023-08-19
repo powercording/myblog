@@ -1,22 +1,23 @@
 'use client';
 
-import { useState } from 'react';
-import MarkdownViewer from './markdownViewer';
+import React, { useState } from 'react';
 import MarkdownEditor from './markdownEditor';
 import { InferModel } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
 import { BsPencil } from 'react-icons/bs';
 import { insertPost, deletePost, updatePost, Markdown } from '@/service/postService';
 import categoriesList from '@/lib/asset/category';
+import MarkdownServerViewer, { MarkdownViewerType } from './markdownServerViewer';
 
 type MarkdownSet = {
   renderType: 'edit' | 'create';
   markdown?: InferModel<typeof post>;
+  Viewer: React.FunctionComponent<MarkdownViewerType>;
 };
 
 // const emptyMarkdown: InferModel<typeof post> = {
 
-export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
+export default function MarkdownSet({ markdown, renderType, Viewer }: MarkdownSet) {
   const [markdownPost, setMarkdownPost] = useState<Markdown>({
     title: markdown?.title ?? '',
     content: markdown?.content ?? '',
@@ -145,7 +146,7 @@ export default function MarkdownSet({ markdown, renderType }: MarkdownSet) {
       </section>
       <section className="relative mx-auto mb-8 mt-4 grid h-auto min-h-screen w-full border lg:grid-cols-2 2xl:w-3/4">
         <MarkdownEditor markdown={markdownPost.content} setMarkdown={setMarkdownPost} />
-        <MarkdownViewer markdown={markdownPost.content} />
+        <Viewer markdown={markdownPost.content} />
       </section>
     </main>
   );

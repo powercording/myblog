@@ -1,4 +1,4 @@
-import MarkdownViewer from '@/components/markdown/markdownViewer';
+import MarkdownServerViewer from '@/components/markdown/markdownServerViewer';
 import { database } from '@/database/databaseClient';
 import { post } from '@/lib/PostSchema/schema';
 import { eq } from 'drizzle-orm';
@@ -19,7 +19,7 @@ export default async function Content({ postId }: Content) {
 
   return (
     <article className="col-span-3 w-full lg:col-span-2">
-      <MarkdownViewer markdown={markdown.content} />
+      <MarkdownServerViewer markdown={markdown.content} />
     </article>
   );
 }

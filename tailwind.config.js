@@ -4,7 +4,8 @@ module.exports = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/context/**/*.{js,ts,jsx,tsx,mdx}'
+    './src/context/**/*.{js,ts,jsx,tsx,mdx}',
+    './mdx-components.tsx',
   ],
   theme: {
     extend: {
@@ -18,13 +19,21 @@ module.exports = {
           '20%': { opacity: '1', transform: 'translateY(0)' },
           '85%': { opacity: '1', transform: 'translateY(0)' },
           '100%': { opacity: '0', transform: 'translateY(-20)' },
-        }
+        },
       },
       animation: {
         fadeIn: 'fade 3s ease-out',
-      }
+      },
+      hljs: {
+        theme: 'atom-one-dark',
+      },
     },
   },
   variants: {},
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/typography'), require('tailwind-highlightjs')],
+  safelist: [
+    {
+      pattern: /hljs+/,
+    },
+  ]
 };
