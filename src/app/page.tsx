@@ -26,7 +26,7 @@ export default async function Home({ searchParams }: Home) {
   return (
     <PostGrid
       leftMenu={<FilteredCategory current={searchParams.category} />}
-      rightMenu={<div></div>}
+      rightMenu={<div>right side menu</div>}
     >
       {posts.length ? (
         posts.map(post => {
