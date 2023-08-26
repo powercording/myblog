@@ -6,12 +6,14 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/nextAuth/options';
 import ToastContextProvider from '@/context/ToastContextProvider';
 import ToastViewer from '@/context/toastViewer';
+import { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'MYBLOG',
   description: '기술, 일상 기록 블로그',
+  verification: { google: 'rg2RWyqidUG4kJSQvU9TrZr-KhJa_-9gMaxAiBu7T_w' },
 };
 
 const menuList: MenuListProps[] = [
