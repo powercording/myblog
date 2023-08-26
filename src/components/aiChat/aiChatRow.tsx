@@ -2,7 +2,7 @@ import { Message } from 'ai';
 import { FiUser } from 'react-icons/fi';
 import { VscOctoface } from 'react-icons/vsc';
 import { dateFormat } from '@/lib/util/dateTimeFormatter';
-import MarkdownViewer from '../markdown/markdownViewer';
+import MarkdownServerViewer from '../markdown/markdownServerViewer';
 
 type AiChatRowProps = {
   message: Message;
@@ -17,7 +17,7 @@ export default function AiChatRow({ message }: AiChatRowProps) {
         {role === 'user' ? <FiUser size={'1.5rem'} /> : <VscOctoface size={'1.5rem'} />}
       </div>
       <div className="w-full basis-11/12 self-start">
-        <MarkdownViewer markdown={content}></MarkdownViewer>
+        <MarkdownServerViewer markdown={content}></MarkdownServerViewer>
         {createdAt && <p className="text-end text-xs text-gray-400">{dateFormat(createdAt)}</p>}
       </div>
     </div>
