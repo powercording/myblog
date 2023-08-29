@@ -13,14 +13,10 @@
 #     environment:
 #       - WATCHPACK_POLLING=true
 
-version: '3.8'
+version: '3'
 services:
   nextjs:
     build: ./
-    env_file:
-      - ./.env.local
-    environment:
-      - WATCHPACK_POLLING=true
   nginx:
     build: ./nginx
     ports:

@@ -1,16 +1,10 @@
-version: '3.8'
+version: '3'
 services:
   nextjs:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    env_file:
-      - ./.env.local
-    environment:
-      - WATCHPACK_POLLING=true
   nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
+    build: ./nginx
     ports:
       - 80:80
