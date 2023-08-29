@@ -1,3 +1,12 @@
-node_modules/
+
 npm-debug.log
+node_modules
+.next
+Dockerfile
+.dockerignore
 .git
+.gitignore
+*.md
+*.sh
+*.yml
+nginx
