@@ -24,13 +24,14 @@ jobs:
 
       - name: Build image, Tag, and Push to Amazon Ecr
         id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: sdblog
-          IMAGE_TAG: latest
-          # IMAGE_TAG: ${{ github.sha }}
+        # env:
+        #   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        #   ECR_REPOSITORY: sdblog
+        #   IMAGE_TAG: latest
+        # run: |
+        #   echo "AWS configured with access key ${{ steps.login-ecr.outputs }}."
+        #   docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        #   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        #   echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
         run: |
           echo "AWS configured with access key ${{ steps.login-ecr.outputs }}."
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
