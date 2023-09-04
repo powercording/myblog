@@ -36,7 +36,7 @@ env:
   ECS_SERVICE: test
   ECS_CLUSTER: test
   ECS_TASK_DEFINITION: .github/workflows/task-definition.json
-  CONTAINER_NAME: test-next-app
+  CONTAINER_NAME: test
 
 permissions:
   contents: read
