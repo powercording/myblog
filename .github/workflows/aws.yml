@@ -33,10 +33,10 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: test
-  ECS_SERVICE: test
+  ECS_SERVICE: run
   ECS_CLUSTER: test
   ECS_TASK_DEFINITION: .github/workflows/task-definition.json
-  CONTAINER_NAME: test
+  CONTAINER_NAME: run
 
 permissions:
   contents: read
