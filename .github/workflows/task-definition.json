@@ -1,9 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:608850903908:task-definition/nextblog:1",
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:608850903908:task-definition/nextblog:5",
     "containerDefinitions": [
         {
             "name": "nextjs",
-            "image": "608850903908.dkr.ecr.ap-northeast-2.amazonaws.com/sdblog",
+            "image": "608850903908.dkr.ecr.ap-northeast-2.amazonaws.com/sdblog:961caa3eb1a396e7f817aa5d5f94dbeab63f1d74-nextjs",
             "cpu": 0,
             "portMappings": [
                 {
@@ -24,7 +24,6 @@
             ],
             "mountPoints": [],
             "volumesFrom": [],
-            "ulimits": [],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
@@ -49,9 +48,8 @@
                     "appProtocol": "http"
                 }
             ],
-            "essential": true,
+            "essential": false,
             "environment": [],
-            "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": []
         }
@@ -60,7 +58,7 @@
     "taskRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 1,
+    "revision": 5,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -109,6 +107,6 @@
     ],
     "cpu": "1024",
     "memory": "3072",
-    "registeredAt": "2023-09-05T15:53:34.878000+09:00",
+    "registeredAt": "2023-09-05T16:40:10.665000+09:00",
     "registeredBy": "arn:aws:iam::608850903908:root"
 }
