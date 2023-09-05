@@ -3,7 +3,6 @@
 import * as Nav from '@radix-ui/react-navigation-menu';
 import { useRef, useState } from 'react';
 import MenuItem, { MenuListProps } from './menuItem';
-import { SlOptionsVertical } from 'react-icons/sl';
 import { Session } from 'next-auth';
 import { BsFillSignIntersectionFill } from 'react-icons/bs';
 

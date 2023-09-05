@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useTransition, useContext } from 'react';
+import { useState, useTransition } from 'react';
 import { signIn } from 'next-auth/react';
 import Input from '@/components/input/input';
 import Button from '@/components/button/button';
 import { LoginRequestResult } from '@/app/(guestRoute)/login/page';
 import Spinner from '../../loading/spinner';
 import { useToast } from '@/context/useToast';
+import { useRouter } from 'next/navigation';
 
 type LoginOkProp = {
   isEmailOk: true;
@@ -28,6 +29,7 @@ export default function LoginForm({ getUser }: LoginForm) {
   const [loginState, setLoginState] = useState<LoginProp>({ isEmailOk: false });
   const [isPending, startTransition] = useTransition();
   const { addToast } = useToast();
+  const router = useRouter();
 
   const userCheckisJoined = async (formData: FormData) => {
     startTransition(async () => {
@@ -54,12 +56,15 @@ export default function LoginForm({ getUser }: LoginForm) {
     const password = formData.get('password') as string;
 
     startTransition(async () => {
-      await signIn('credentials', {
+      const path = await signIn('credentials', {
         email: loginState.email,
         password,
         callbackUrl: '/',
+        redirect: false,
       });
       addToast(`환영합니다 ${loginState.email}`, { type: 'success' });
+      router.push(path.url);
+      router.refresh();
     });
   };
 
