@@ -58,7 +58,7 @@
   "family": "nextblog",
   "taskRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
   "executionRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
-  "networkMode": "awsvpc",
+  "networkMode": "bridge",
   "revision": 5,
   "volumes": [],
   "status": "ACTIVE",
