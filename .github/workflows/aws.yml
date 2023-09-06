@@ -7,7 +7,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: sdblog
-  ECS_SERVICE: sdblog
+  ECS_SERVICE: awscicd
   ECS_CLUSTER: nextblog
   ECS_TASK_DEFINITION: .github/workflows/task-definition.json
   CONTAINER_NAME: nextjs

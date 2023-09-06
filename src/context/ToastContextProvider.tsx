@@ -44,7 +44,10 @@ export const ToastContext = createContext<ToastContextType | null>(null);
 export default function ToastContextProvider({ children }: ToastConetextProvier) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = (text: string, { id = crypto.randomUUID(), ...toastOptions }: addToast = {}) => {
+  const addToast = (
+    text: string,
+    { id = Math.random().toString(), ...toastOptions }: addToast = {},
+  ) => {
     const newToast = {
       id,
       text,
