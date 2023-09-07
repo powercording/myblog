@@ -48,7 +48,6 @@
           "appProtocol": "http"
         }
       ],
-      "links": ["nextjs"],
       "essential": false,
       "environment": [],
       "mountPoints": [],
@@ -58,7 +57,7 @@
   "family": "nextblog",
   "taskRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
   "executionRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
-  "networkMode": "bridge",
+  "networkMode": "awsvpc",
   "revision": 5,
   "volumes": [],
   "status": "ACTIVE",
