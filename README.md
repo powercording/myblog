@@ -10,7 +10,7 @@
 - nodemailer : 이메일 전송
 - next-auth : 세션관리
 
-## 아텍쳐
+## 아키텍쳐
 
 ![프로그램 아키텍쳐](https://my--blog.s3.ap-northeast-2.amazonaws.com/%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.png '아키텍쳐')
 
