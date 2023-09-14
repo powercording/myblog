@@ -15,7 +15,7 @@ export default function MenuItem({ locationName, href }: MenuListProps) {
   };
 
   return (
-    <Nav.Item onClick={isLogOut ? logout : console.log} className="cursor-pointer">
+    <Nav.Item onClick={isLogOut ? logout : null} className="cursor-pointer">
       <Nav.Link className="NavigationMenuLink" href={href}>
         {locationName}
       </Nav.Link>

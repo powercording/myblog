@@ -2,7 +2,6 @@ import PostGrid from '@/components/PostGrid';
 import Link from 'next/link';
 
 export default function DailyPage({ params: { subject } }) {
-  console.log(subject);
   return (
     <PostGrid leftMenu={<div>왼쪽 메뉴</div>} rightMenu={<div>오른쪽 메뉴</div>}>
       {true ? (
