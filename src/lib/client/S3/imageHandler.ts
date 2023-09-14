@@ -21,7 +21,7 @@ export const imageUploader: ImageHandler = async (image, destination = '') => {
   const filPath = destination === '' ? `${s3BucketImageKey}` : `${destination}/${s3BucketImageKey}`;
 
   const imageUploadRequest = new PutObjectCommand({
-    Bucket: `${process.env.NEXT_PUBLIC_S3_BUCKET}`,
+    Bucket: `${process.env.NEXT_PUBLIC_S3_BUCKET ?? 'my--blog'}`,
     Key: filPath,
     Body: fileData,
     ContentType: 'image/jpeg',
