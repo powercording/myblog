@@ -11,6 +11,7 @@ type MarkdownEditor = {
 };
 
 export default function MarkdownEditor({ setMarkdown, markdown }: MarkdownEditor) {
+  console.log(process.env.NEXT_PUBLIC_S3_ENDPOINT);
   const imageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageKey = await imageUploader(e);
 
