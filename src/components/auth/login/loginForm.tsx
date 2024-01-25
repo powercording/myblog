@@ -7,7 +7,6 @@ import Button from '@/components/button/button';
 import { LoginRequestResult } from '@/app/(guestRoute)/login/page';
 import Spinner from '../../loading/spinner';
 import { useToast } from '@/context/useToast';
-import { useRouter } from 'next/navigation';
 
 type LoginOkProp = {
   isEmailOk: true;
@@ -29,7 +28,6 @@ export default function LoginForm({ getUser }: LoginForm) {
   const [loginState, setLoginState] = useState<LoginProp>({ isEmailOk: false });
   const [isPending, startTransition] = useTransition();
   const { addToast } = useToast();
-  const router = useRouter();
 
   const userCheckisJoined = async (formData: FormData) => {
     startTransition(async () => {
@@ -63,8 +61,7 @@ export default function LoginForm({ getUser }: LoginForm) {
         redirect: false,
       });
       addToast(`환영합니다 ${loginState.email}`, { type: 'success' });
-      router.push(path.url);
-      router.refresh();
+      window.location.href = path.url;
     });
   };
 

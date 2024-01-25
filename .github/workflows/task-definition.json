@@ -1,112 +1,107 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:608850903908:task-definition/nextblog:5",
-    "containerDefinitions": [
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:608850903908:task-definition/nextblog:5",
+  "containerDefinitions": [
+    {
+      "name": "nextjs",
+      "image": "608850903908.dkr.ecr.ap-northeast-2.amazonaws.com/sdblog:961caa3eb1a396e7f817aa5d5f94dbeab63f1d74-nextjs",
+      "cpu": 0,
+      "portMappings": [
         {
-            "name": "nextjs",
-            "image": "608850903908.dkr.ecr.ap-northeast-2.amazonaws.com/sdblog:961caa3eb1a396e7f817aa5d5f94dbeab63f1d74-nextjs",
-            "cpu": 0,
-            "portMappings": [
-                {
-                    "containerPort": 3000,
-                    "hostPort": 3000,
-                    "protocol": "tcp",
-                    "name": "nextjs-3000-tcp",
-                    "appProtocol": "http"
-                }
-            ],
-            "essential": true,
-            "environment": [],
-            "environmentFiles": [
-                {
-                    "value": "arn:aws:s3:::blogenv/blog.env",
-                    "type": "s3"
-                }
-            ],
-            "mountPoints": [],
-            "volumesFrom": [],
-            "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                    "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/nextblog",
-                    "awslogs-region": "ap-northeast-2",
-                    "awslogs-stream-prefix": "ecs"
-                },
-                "secretOptions": []
-            }
-        },
-        {
-            "name": "nginx",
-            "image": "608850903908.dkr.ecr.ap-northeast-2.amazonaws.com/nextblog:latest",
-            "cpu": 0,
-            "portMappings": [
-                {
-                    "containerPort": 80,
-                    "hostPort": 80,
-                    "protocol": "tcp",
-                    "name": "nginx-80-tcp",
-                    "appProtocol": "http"
-                }
-            ],
-            "essential": false,
-            "environment": [],
-            "mountPoints": [],
-            "volumesFrom": []
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "name": "nextjs-3000-tcp",
+          "appProtocol": "http"
         }
-    ],
-    "family": "nextblog",
-    "taskRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
-    "executionRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
-    "networkMode": "awsvpc",
-    "revision": 5,
-    "volumes": [],
-    "status": "ACTIVE",
-    "requiresAttributes": [
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [
         {
-            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
-        },
-        {
-            "name": "ecs.capability.execution-role-awslogs"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.ecr-auth"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
-        },
-        {
-            "name": "ecs.capability.env-files.s3"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.task-iam-role"
-        },
-        {
-            "name": "ecs.capability.execution-role-ecr-pull"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-        },
-        {
-            "name": "ecs.capability.task-eni"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+          "value": "arn:aws:s3:::blogenv/blog.env",
+          "type": "s3"
         }
-    ],
-    "placementConstraints": [],
-    "compatibilities": [
-        "EC2",
-        "FARGATE"
-    ],
-    "runtimePlatform": {
-        "cpuArchitecture": "X86_64",
-        "operatingSystemFamily": "LINUX"
+      ],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/nextblog",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      }
     },
-    "requiresCompatibilities": [
-        "FARGATE"
-    ],
-    "cpu": "1024",
-    "memory": "3072",
-    "registeredAt": "2023-09-05T16:40:10.665000+09:00",
-    "registeredBy": "arn:aws:iam::608850903908:root"
+    {
+      "name": "nginx",
+      "image": "608850903908.dkr.ecr.ap-northeast-2.amazonaws.com/nextblog:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp",
+          "name": "nginx-80-tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": false,
+      "environment": [],
+      "mountPoints": [],
+      "volumesFrom": []
+    }
+  ],
+  "family": "nextblog",
+  "taskRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::608850903908:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "revision": 5,
+  "volumes": [],
+  "status": "ACTIVE",
+  "requiresAttributes": [
+    {
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "name": "ecs.capability.env-files.s3"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    },
+    {
+      "name": "ecs.capability.task-eni"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+    }
+  ],
+  "placementConstraints": [],
+  "compatibilities": ["EC2", "FARGATE"],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "3072",
+  "registeredAt": "2023-09-05T16:40:10.665000+09:00",
+  "registeredBy": "arn:aws:iam::608850903908:root"
 }

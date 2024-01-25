@@ -1,6 +1,5 @@
 import * as Nav from '@radix-ui/react-navigation-menu';
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 export type MenuListProps = {
   locationName: string;
@@ -8,17 +7,15 @@ export type MenuListProps = {
 } & React.ComponentProps<typeof Nav.Link>;
 
 export default function MenuItem({ locationName, href }: MenuListProps) {
-  const router = useRouter();
   const isLogOut = locationName === 'Logout';
 
   const logout = async () => {
     const path = await signOut({ callbackUrl: '/', redirect: false });
-    router.refresh();
-    router.push(path.url);
+    window.location.href = path.url;
   };
 
   return (
-    <Nav.Item onClick={isLogOut ? logout : console.log}>
+    <Nav.Item onClick={isLogOut ? logout : null} className="cursor-pointer">
       <Nav.Link className="NavigationMenuLink" href={href}>
         {locationName}
       </Nav.Link>
