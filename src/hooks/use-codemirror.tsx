@@ -32,9 +32,8 @@ export const transparentTheme = EditorView.theme({
 const mySyntaxHighlight = HighlightStyle.define([
   {
     tag: tags.heading1,
-    fontSize: '1.6em',
+    fontSize: '1.8em',
     fontWeight: 'bold',
-    className: 'text-[#61afef]',
   },
   {
     tag: tags.heading2,
@@ -90,7 +89,7 @@ const useCodeMirror = <T extends Element>(
           }
         }),
       ],
-    }); 
+    });
 
     const view = new EditorView({
       state: startState,

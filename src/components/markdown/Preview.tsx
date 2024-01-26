@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
@@ -10,7 +10,7 @@ import RemarkLink from './remark-link';
 import { defaultSchema } from 'hast-util-sanitize';
 import 'github-markdown-css/github-markdown.css';
 import { twMerge } from 'tailwind-merge';
-import useCodeMirror from '@/hooks/use-codemirror';
+import { initHighlighting } from '@/lib/util/pre-highlighter';
 
 type Props = {
   doc: string;
@@ -25,10 +25,6 @@ const schema = {
 };
 
 export default function Preview(props: Props) {
-  const [refContainer] = useCodeMirror({
-    initialDoc: props.doc,
-    onChange: () => {},
-  })
   const md = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -39,15 +35,22 @@ export default function Preview(props: Props) {
     })
     .processSync(props.doc).result as string; // type unknown. why?
 
+  useEffect(() => {
+    initHighlighting();
+  }, [props.doc]);
+
   return (
     <>
-    <div
-    className={twMerge("prose w-full max-w-[100%] overflow-auto break-words prose-a:text-sky-500 prose-th:text-green-500 bg-transparent p-3", 
-    "text-[#abb2bf] prose-headings:pb-4 prose-h1:border-b prose-h1:text-[#abb2bf] prose-h2:border-b prose-h2:text-[#abb2bf] prose-h3:text-[#abb2bf] prose-blockquote:text-center prose-blockquote:text-white" )}
-    >
-      {md}
-    </div>
-    <div ref={refContainer as any} className="hidden"></div>
+      <div
+        className={twMerge(
+          'prose w-full prose-headings:pb-4 prose-h1:border-b prose-h1:text-[#abb2bf] prose-h2:border-b',
+          'prose-h2:text-[#abb2bf] prose-h3:text-[#abb2bf] prose-blockquote:text-center prose-blockquote:text-white',
+          'prose-a:text-sky-500 prose-strong:text-white prose-th:text-green-500',
+          'max-w-[100%] overflow-auto break-words bg-transparent p-3 text-[#abb2bf]',
+        )}
+      >
+        {md}
+      </div>
     </>
   );
 }
