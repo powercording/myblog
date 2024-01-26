@@ -10,7 +10,7 @@
     "lint": "next lint",
     "migrations:generate": "drizzle-kit generate:mysql",
     "migrations:push": "drizzle-kit push:mysql",
-    "migrations:pull": "drizzle-kit introspect:mysql --config=drizzle.config.js",
+    "migrations:pull": "drizzle-kit introspect:mysql --config=drizzle.config.ts",
     "studio": "drizzle-kit studio",
     "test": "vitest"
   },
@@ -31,6 +31,7 @@
     "@types/react-dom": "18.2.7",
     "ai": "^2.1.22",
     "autoprefixer": "^10.4.14",
+    "dotenv": "^16.4.1",
     "drizzle-orm": "^0.27.2",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
