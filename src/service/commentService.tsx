@@ -24,11 +24,11 @@ const insertComment = withTryCatchSession(
         .build();
     }
 
-    const insertedCommnet = await database
+    const insertedComment = await database
       .insert(comment)
       .values({ userName: session.user.name as string, content, postId });
 
-    if (insertedCommnet.rowsAffected === 0 || insertedCommnet.rowsAffected === undefined) {
+    if (insertedComment.rowsAffected === 0 || insertedComment.rowsAffected === undefined) {
       return new ResponseBuilder()
         .setStatus(500)
         .setOk(false)
