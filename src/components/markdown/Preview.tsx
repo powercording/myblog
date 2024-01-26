@@ -14,6 +14,7 @@ import { initHighlighting } from '@/lib/util/pre-highlighter';
 
 type Props = {
   doc: string;
+  editable?: boolean;
 };
 
 const schema = {
@@ -47,6 +48,7 @@ export default function Preview(props: Props) {
           'prose-h2:text-[#abb2bf] prose-h3:text-[#abb2bf] prose-blockquote:text-center prose-blockquote:text-white',
           'prose-a:text-sky-500 prose-strong:text-white prose-th:text-green-500',
           'max-w-[100%] overflow-auto break-words bg-transparent p-3 text-[#abb2bf]',
+          props.editable ? 'max-h-[100dvh]' : '',
         )}
       >
         {md}

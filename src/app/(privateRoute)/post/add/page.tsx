@@ -44,14 +44,16 @@ export default function AddPost() {
       />
       <div className="max-w-screen flex min-h-screen">
         <Editor onChange={handleChange} initialDoc={doc} />
-        <Preview doc={doc} />
+        <Preview doc={doc} editable />
       </div>
-      <button
-        onClick={onInsert}
-        className="m-3 mx-auto rounded-sm border border-green-300 border-opacity-50 px-3 py-2 text-sm text-gray-500 hover:border-opacity-100 hover:text-white"
-      >
-        게시글 작성하기
-      </button>
+      <section className="flex justify-end">
+        <button
+          onClick={onInsert}
+          className="m-3 ml-auto rounded-sm border border-green-300 border-opacity-50 px-3 py-2 text-sm text-gray-500 hover:border-opacity-100 hover:text-white"
+        >
+          게시글 작성하기
+        </button>
+      </section>
     </main>
   );
 }

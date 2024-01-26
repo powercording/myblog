@@ -30,5 +30,5 @@ export default function Editor(props: EditorProps) {
     }
   }, [editorView]);
 
-  return <div ref={refContainer} className="w-full p-3" />;
+  return <div ref={refContainer} className="max-h-[100dvh] w-full p-3" />;
 }
