@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import HeightControlTextArea from '../textArea/heightControlTextArea';
-import MarkdownServerViewer from '../markdown/markdownServerViewer';
+import Preview from '../markdown/Preview';
 
 interface CommentBox {
   curretnUser: string;
@@ -20,7 +20,7 @@ export default function CommentBox({ curretnUser }: CommentBox) {
       </div>
       <details className="cursor-pointer" open>
         <summary> 댓글 미리보기 </summary>
-        <MarkdownServerViewer markdown={content} />
+        <Preview doc={content} />
       </details>
     </section>
   );

@@ -1,6 +1,6 @@
 import ProfilImage from '../article/profilImage';
 import { dateFormatter } from '@/lib/util/dateTimeFormatter';
-import MarkdownServerViewer from '../markdown/markdownServerViewer';
+import Preview from '../markdown/Preview';
 
 type Comment = {
   comment: {
@@ -30,7 +30,7 @@ export default function Comment({ comment, children }: Comment) {
           <span className="ml-3 text-sm">{dateFormatter(comment.createdAt)}</span>
         </address>
         {children}
-        <MarkdownServerViewer markdown={comment.content} />
+        <Preview doc={comment.content} />
       </div>
     </div>
   );
