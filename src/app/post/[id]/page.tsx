@@ -15,7 +15,6 @@ import ContentFallback from '@/components/article/post/contentFallback';
 import HeaderFallback from '@/components/article/post/headerFallback';
 import CommentFallback from '@/components/comment/commentFallback';
 import Preview from '@/components/markdown/Preview';
-import Editor from '@/components/markdown/Editor';
 export type Params = {
   params: {
     id: string;
@@ -59,32 +58,34 @@ export default async function Post({ params: { id } }: Params) {
     }
   };
 
-  const handleChange = async(title:string) => {
-    'use server'
-  }
+  const handleChange = async (title: string) => {
+    'use server';
+  };
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pb-10">
       <Suspense fallback={<HeaderFallback />}>
         <PostHeader postId={+id} currentUser={currentUser!} />
       </Suspense>
-      <div className="mx-auto w-full gap-3 pt-2 2xl:w-3/4 flex">
-        <Suspense fallback={<ContentFallback />}>
-          <article className="w-full">
-            {!markdown.content ? <div>페이지 조회에 실패하였습니다.</div> :  <Preview doc={markdown.content} />}
-          </article>
+      <Suspense fallback={<ContentFallback />}>
+        <article className="mx-auto flex w-full px-4 pt-2 sm:w-3/4 2xl:w-3/4">
+          {!markdown.content ? (
+            <div>페이지 조회에 실패하였습니다.</div>
+          ) : (
+            <Preview doc={markdown.content} />
+          )}
+        </article>
+      </Suspense>
+      <section className="mx-auto mt-4 w-full border-t border-t-[#abb2bf] pt-4 sm:w-3/4">
+        <Suspense fallback={<CommentFallback />}>
+          <CommentArea
+            postId={+id}
+            currentUser={currentUser!}
+            onDelete={commentDelete}
+            onSubmit={commentAction}
+          />
         </Suspense>
-        <aside className="w-full border-t lg:border-l lg:border-t-0">
-          <Suspense fallback={<CommentFallback />}>
-            <CommentArea
-              postId={+id}
-              currentUser={currentUser!}
-              onDelete={commentDelete}
-              onSubmit={commentAction}
-            />
-          </Suspense>
-        </aside>
-      </div>
+      </section>
       {/* <Editor initialDoc={markdown.content} onChange={handleChange}/> */}
     </main>
   );
