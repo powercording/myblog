@@ -55,7 +55,7 @@ export default function ToastContextProvider({ children }: ToastConetextProvier)
       ...toastOptions,
     };
 
-    setToasts(curretnToasts => [...curretnToasts, newToast]);
+    setToasts(currentToasts => [...currentToasts, newToast]);
 
     if (newToast.autoCleanup) {
       setTimeout(() => {

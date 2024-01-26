@@ -5,17 +5,17 @@ import { insertComment, deleteComment } from '@/service/commentService';
 import { post } from '@/lib/PostSchema/schema';
 import { authOptions } from '@/lib/nextAuth/options';
 import { eq } from 'drizzle-orm';
-import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 import { revalidatePath } from 'next/cache';
 
 import CommentArea from '@/components/comment/commentArea';
 import PostHeader from '@/components/article/post/Header';
-import Content from '@/components/article/post/content';
 import ContentFallback from '@/components/article/post/contentFallback';
 import HeaderFallback from '@/components/article/post/headerFallback';
 import CommentFallback from '@/components/comment/commentFallback';
+import Preview from '@/components/markdown/Preview';
+import Editor from '@/components/markdown/Editor';
 export type Params = {
   params: {
     id: string;
@@ -26,14 +26,10 @@ export default async function Post({ params: { id } }: Params) {
   const session = await getServerSession(authOptions);
   const currentUser = session?.user?.name;
 
-  const markdownPost = await database.query.post.findFirst({
-    where: eq(post.id, Number(id)),
+  const markdown = await database.query.post.findFirst({
+    where: eq(post.id, +id),
     columns: { content: true },
   });
-
-  if (!markdownPost) {
-    redirect('/');
-  }
 
   const commentAction = async (comment: FormData) => {
     'use server';
@@ -63,16 +59,22 @@ export default async function Post({ params: { id } }: Params) {
     }
   };
 
+  const handleChange = async(title:string) => {
+    'use server'
+  }
+
   return (
     <main className="min-h-screen">
       <Suspense fallback={<HeaderFallback />}>
         <PostHeader postId={+id} currentUser={currentUser!} />
       </Suspense>
-      <div className="mx-auto grid w-full grid-cols-3 justify-items-center gap-3 pt-2 2xl:w-3/4">
+      <div className="mx-auto w-full gap-3 pt-2 2xl:w-3/4 flex">
         <Suspense fallback={<ContentFallback />}>
-          <Content postId={+id} />
+          <article className="w-full">
+            {!markdown.content ? <div>페이지 조회에 실패하였습니다.</div> :  <Preview doc={markdown.content} />}
+          </article>
         </Suspense>
-        <aside className="col-span-3 w-full border-t lg:col-span-1 lg:border-l lg:border-t-0">
+        <aside className="w-full border-t lg:border-l lg:border-t-0">
           <Suspense fallback={<CommentFallback />}>
             <CommentArea
               postId={+id}
@@ -83,6 +85,7 @@ export default async function Post({ params: { id } }: Params) {
           </Suspense>
         </aside>
       </div>
+      {/* <Editor initialDoc={markdown.content} onChange={handleChange}/> */}
     </main>
   );
 }

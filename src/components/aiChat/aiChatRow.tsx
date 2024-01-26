@@ -2,7 +2,7 @@ import { Message } from 'ai';
 import { FiUser } from 'react-icons/fi';
 import { VscOctoface } from 'react-icons/vsc';
 import { dateFormat } from '@/lib/util/dateTimeFormatter';
-import MarkdownServerViewer from '../markdown/markdownServerViewer';
+import MarkdownServerViewer from '../markdown/_markdownServerViewer';
 
 type AiChatRowProps = {
   message: Message;

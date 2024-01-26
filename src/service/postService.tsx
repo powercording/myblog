@@ -1,7 +1,7 @@
 'use server';
 
 //TODO: 파일 전체에 콘솔로그 리턴값을 데이터로 교체 해야함
-import { InferModel, eq, and, ConsoleLogWriter } from 'drizzle-orm';
+import { InferModel, eq, and } from 'drizzle-orm';
 import { post } from '@/lib/PostSchema/schema';
 import { withTryCatchSession } from './withService';
 import { Session } from 'next-auth';
@@ -18,6 +18,16 @@ const insertPost = withTryCatchSession(async (markdownModel: Markdown, session?:
       .setError({ message: '먼저 로그인 해야 합니다.' })
       .setOk(false)
       .setStatus(401)
+      .build();
+  }
+
+  const { content, title } = markdownModel;
+
+  if (!content || !title ) { 
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(400)
+      .setError({ message: '내용과 제목을 입력해주세요' })
       .build();
   }
 
@@ -85,7 +95,16 @@ const updatePost = withTryCatchSession(async (markdownModel: UpdateMarkdown, ses
       .setError({ message: '권한이 없습니다.' })
       .build();
   }
+
   const { content, title, categories } = markdownModel;
+
+  if (!content || !title ) { 
+    return new ResponseBuilder()
+      .setOk(false)
+      .setStatus(400)
+      .setError({ message: '내용과 제목을 입력해주세요' })
+      .build();
+  }
 
   const updated = await database
     .update(post)
