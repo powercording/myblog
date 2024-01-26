@@ -6,15 +6,16 @@ import { TiDelete } from 'react-icons/ti';
 import DeleteIconButton from '../button/deleteIconButton';
 import CommentBox from './commentBox';
 import { LiaCommentDotsSolid } from 'react-icons/lia';
+import { insertComment } from '@/service/commentService';
+import { deleteComment } from '@/service/commentService';
+import { revalidatePath } from 'next/cache';
 
 interface CommentBox {
   postId: number;
   currentUser: string;
-  onDelete: (commentId: number) => void;
-  onSubmit: (comment: FormData) => void;
 }
 
-export default async function CommentArea({ postId, currentUser, onDelete, onSubmit }: CommentBox) {
+export default async function CommentArea({ postId, currentUser }: CommentBox) {
   const comments = await database.query.comment.findMany({
     where: eq(comment.postId, postId),
     with: {
@@ -33,7 +34,16 @@ export default async function CommentArea({ postId, currentUser, onDelete, onSub
           <Comment key={comment.id} comment={comment}>
             {currentUser === comment.userName && (
               <DeleteIconButton
-                deleteApi={onDelete}
+                deleteApi={async () => {
+                  'use server';
+                  const result = await deleteComment(comment.id);
+                  if (result.status === 200) {
+                    revalidatePath(`/post/[${postId}]`);
+                  }
+                  if (!result.ok) {
+                    console.log(result.error);
+                  }
+                }}
                 className="absolute right-3 top-2"
                 deleteId={comment.id}
                 icon={<TiDelete />}
@@ -42,9 +52,21 @@ export default async function CommentArea({ postId, currentUser, onDelete, onSub
           </Comment>
         ))}
       </div>
-      <form action={onSubmit} className="relative flex flex-col py-5">
+      <form
+        action={async (formData: FormData) => {
+          'use server';
+          const result = await insertComment(formData.get('comment') as string, postId);
+          if (result.status === 200) {
+            revalidatePath(`/post/[${postId}]`);
+          }
+          if (!result.ok) {
+            console.log(result.error);
+          }
+        }}
+        className="relative flex flex-col py-5"
+      >
         <span className="text-sm text-gray-400"> Write your comment </span>
-        <CommentBox curretnUser={currentUser} />
+        <CommentBox currentUser={currentUser} />
         <button type="submit" className="flex w-full justify-center rounded-md bg-slate-800 p-2">
           <LiaCommentDotsSolid className="h-6 w-6" />
         </button>
