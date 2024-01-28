@@ -37,8 +37,10 @@ export default function Preview(props: Props) {
     .processSync(props.doc).result as string; // type unknown. why?
 
   useEffect(() => {
-    initHighlighting();
-  }, [props.doc]);
+    if (!props.editable) {
+      initHighlighting();
+    }
+  }, [props.editable]);
 
   return (
     <>
