@@ -11,7 +11,7 @@ export const transparentTheme = EditorView.theme({
 
 export const initHighlighting = () => {
   const startState = EditorState.create({
-    extensions: [oneDarkTheme({ backGroundColor: '#000000' }), transparentTheme],
+    extensions: [oneDarkTheme(), transparentTheme],
   });
 
   new EditorView({

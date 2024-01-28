@@ -32,7 +32,7 @@ export default async function Post({ params: { id } }: Params) {
         <PostHeader postId={+id} currentUser={currentUser!} />
       </Suspense>
       <Suspense fallback={<ContentFallback />}>
-        <article className="mx-auto flex w-full px-4 pt-2 sm:w-3/4 2xl:w-3/4">
+        <article className="mx-auto flex w-full px-4 pt-2 md:w-3/4 2xl:w-3/4">
           {!markdown.content ? (
             <div>페이지 조회에 실패하였습니다.</div>
           ) : (

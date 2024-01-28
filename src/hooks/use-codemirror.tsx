@@ -78,7 +78,7 @@ const useCodeMirror = <T extends Element>(
           addKeymap: true,
         }),
         // oneDark,
-        oneDarkTheme({ backGroundColor: '#000000' }),
+        oneDarkTheme({ backGroundColor: 'black', cm_activeLine: '#ffffff2d' }),
         transparentTheme,
         syntaxHighlighting(defaultHighlightStyle),
         syntaxHighlighting(mySyntaxHighlight),

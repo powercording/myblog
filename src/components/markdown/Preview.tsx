@@ -44,9 +44,9 @@ export default function Preview(props: Props) {
     <>
       <div
         className={twMerge(
-          'prose w-full prose-headings:pb-4 prose-h1:border-b prose-h1:text-[#abb2bf] prose-h2:border-b',
-          'prose-h2:text-[#abb2bf] prose-h3:text-[#abb2bf] prose-blockquote:text-center prose-blockquote:text-white',
-          'prose-a:text-sky-500 prose-strong:text-white prose-th:text-green-500',
+          'prose w-full prose-headings:pb-4 prose-h1:border-b prose-h2:border-b prose-pre:border prose-pre:border-green-400 prose-pre:bg-slate-900',
+          'prose-h1:text-white prose-h2:text-white prose-h3:text-cyan-500 prose-blockquote:text-center prose-blockquote:text-white',
+          'prose-a:text-sky-500 prose-strong:text-white prose-li:text-white prose-th:text-green-500',
           'max-w-[100%] overflow-auto break-words bg-transparent p-3 text-[#abb2bf]',
           props.editable ? 'max-h-[100dvh]' : '',
         )}
