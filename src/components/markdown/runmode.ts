@@ -1,6 +1,6 @@
 import { highlightTree } from '@lezer/highlight';
 import { languages } from '@codemirror/language-data';
-import { oneDarkHighlightStyle } from '@codemirror/theme-one-dark';
+import { oneDarkHighlightStyle } from './one-dark';
 import type { Language, LanguageDescription } from '@codemirror/language';
 
 type RunModeCallback = (text: string, style: string | null, from: number, to: number) => void;
