@@ -6,10 +6,20 @@ import Preview from '@/components/markdown/Preview';
 import { insertPost } from '@/service/postService';
 import categoriesList from '@/lib/asset/category';
 import { useToast } from '@/context/useToast';
+import { useInterval } from '@/hooks/use-interval';
+import { database } from '@/database/databaseClient';
+import { autoSave } from '@/lib/AutosaveSchema/schema';
+import { useAutosave } from '@/hooks/use-autosave';
 
 export default function AddPost() {
   const [doc, setDoc] = React.useState<string>('write something here');
   const toast = useToast();
+
+  useAutosave(setDoc);
+
+  // useInterval(() => {
+  //   database.insert(autoSave).values({ content: doc, userId: 1 });
+  // }, 30000);
 
   const handleChange = React.useCallback((doc: string) => {
     setDoc(doc);
@@ -29,8 +39,6 @@ export default function AddPost() {
       window.location.href = `/post/${postInsertResult.data}`;
     }
   };
-
-  const autoSave = () => {};
 
   return (
     <main className="h-auto w-full px-4 pt-16">

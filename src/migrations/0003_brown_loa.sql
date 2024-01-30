@@ -1,0 +1,1 @@
+ALTER TABLE `AutoSave` MODIFY COLUMN `userId` varchar(60) NOT NULL;

@@ -4,6 +4,7 @@ import * as userSchema from '@/lib/UserSchema/schema';
 import * as postSchema from '@/lib/PostSchema/schema';
 import * as tokenSchema from '@/lib/TokenSchema/schema';
 import * as commentSchema from '@/lib/CommentSchema/schema';
+import * as autoSaveSchema from '@/lib/AutosaveSchema/schema';
 
 const databaseConnection = connect({
   host: process.env.DATABASE_HOST,
@@ -17,5 +18,6 @@ export const database = drizzle(databaseConnection, {
     ...postSchema,
     ...tokenSchema,
     ...commentSchema,
+    ...autoSaveSchema,
   },
 });

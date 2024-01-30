@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
@@ -26,6 +26,7 @@ const schema = {
 };
 
 export default function Preview(props: Props) {
+  const viewRef = useRef<HTMLDivElement>(null);
   const md = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -42,9 +43,17 @@ export default function Preview(props: Props) {
     }
   }, [props.editable]);
 
+  useEffect(() => {
+    if (viewRef.current) {
+      //텍스트가 줄바꿈이 될 경우 스크롤을 아래로
+      viewRef.current.scrollTop = viewRef.current.scrollHeight;
+    }
+  }, [props.doc]);
+
   return (
     <>
       <div
+        ref={viewRef}
         className={twMerge(
           'prose w-full prose-headings:pb-4 prose-h1:border-b prose-h2:border-b prose-pre:border prose-pre:border-green-400 prose-pre:bg-slate-900',
           'prose-h1:text-white prose-h2:text-white prose-h3:text-cyan-500 prose-blockquote:text-center prose-blockquote:text-white',

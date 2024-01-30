@@ -8,6 +8,27 @@
       "when": 1706255130218,
       "tag": "0000_dark_mordo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1706530249664,
+      "tag": "0001_great_toad",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1706530299485,
+      "tag": "0002_petite_zarek",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1706534400824,
+      "tag": "0003_brown_loa",
+      "breakpoints": true
     }
   ]
 }
